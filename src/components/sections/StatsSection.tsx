@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import { statsData } from '../../data/stats';
 import { StatItem } from '../ui/StatItem';
 import { Container } from '../layout/Container';
@@ -11,11 +12,23 @@ export function StatsSection() {
           title="إحصائياتنا" 
           subtitle="أرقام تعكس ثقتكم بنا وتفاعلكم المستمر مع محتوانا" 
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+        >
           {statsData.map((stat, index) => (
             <StatItem key={stat.id} stat={stat} index={index} />
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

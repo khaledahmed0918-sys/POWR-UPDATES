@@ -16,14 +16,26 @@ export function CreditsSection() {
   return (
     <section className="w-full py-12 border-t border-white/10 mt-8 bg-black/40">
       <Container>
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
+        <motion.div 
+          className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.2
+              }
+            }
+          }}
+        >
           {creditsData.map((credit, index) => (
             <motion.div
               key={credit.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
               className="flex flex-col items-center gap-4 bg-white/5 px-8 py-6 rounded-3xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors"
             >
               <div className="flex items-center gap-4">
@@ -43,7 +55,7 @@ export function CreditsSection() {
               </div>
 
               {credit.socials && credit.socials.length > 0 && (
-                <div className="flex items-center gap-3 mt-2">
+                 <div className="flex items-center gap-3 mt-2">
                   {credit.socials.map((social) => {
                     const Icon = social.icon;
                     const isDiscord = social.platform === 'Discord';
@@ -84,7 +96,7 @@ export function CreditsSection() {
               )}
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
@@ -25,7 +25,6 @@ export function LatestNewsSection() {
   const [error, setError] = useState<string | null>(null);
   
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 
   async function loadTweets() {
@@ -56,26 +55,6 @@ export function LatestNewsSection() {
     const interval = setInterval(() => loadTweets(), 30000);
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container || isPaused || tweets.length === 0) return;
-
-    let animationId: number;
-    const scroll = () => {
-      if (container) {
-        container.scrollLeft += 1;
-        // Reset scroll when reaching the end of the first set
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
-        }
-      }
-      animationId = requestAnimationFrame(scroll);
-    };
-    animationId = requestAnimationFrame(scroll);
-
-    return () => cancelAnimationFrame(animationId);
-  }, [isPaused, tweets]);
 
   const handleDownload = async (url: string) => {
     try {
@@ -205,7 +184,7 @@ export function LatestNewsSection() {
         </div>
       )}
       
-      {/* Scrollable Container */}
+      {/* CSS Marquee Container */}
       <div 
         dir="ltr" 
         className="w-full overflow-hidden mt-8 relative"
@@ -218,9 +197,7 @@ export function LatestNewsSection() {
         <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
         
         <div 
-          ref={scrollRef}
-          className="flex w-full overflow-x-auto scrollbar-hide gap-8 px-4 pb-4"
-          style={{ scrollBehavior: 'auto' }}
+          className={`flex w-max gap-8 px-4 pb-4 animate-marquee ${isPaused ? '![animation-play-state:paused]' : ''}`}
         >
           {[...tweets, ...tweets].map((tweet, index) => (
             <a 

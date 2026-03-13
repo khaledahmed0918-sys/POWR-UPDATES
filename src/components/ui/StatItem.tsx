@@ -22,10 +22,10 @@ export function StatItem({ stat, index }: StatItemProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+      }}
     >
       <Card className="h-full flex flex-col justify-center items-center text-center gap-2">
         <h3 className="text-gray-400 text-sm md:text-base font-medium">{stat.label}</h3>

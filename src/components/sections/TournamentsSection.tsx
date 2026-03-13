@@ -37,14 +37,26 @@ export function TournamentsSection() {
           subtitle="تغطية حصرية لأبرز الأحداث والبطولات المحلية والعالمية" 
         />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 max-w-5xl mx-auto">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 max-w-5xl mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+        >
           {tournaments.map((tournament, index) => (
             <motion.div
               key={tournament.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
               className="group relative flex items-center justify-between p-8 rounded-2xl bg-[#1A0505]/80 border border-white/5 hover:bg-[#1A0505] hover:border-red-900/50 transition-all duration-300 overflow-hidden shadow-xl"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-red-900/0 via-red-900/0 to-red-900/10 group-hover:from-red-900/20 transition-all duration-500" />
@@ -57,7 +69,7 @@ export function TournamentsSection() {
               </span>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

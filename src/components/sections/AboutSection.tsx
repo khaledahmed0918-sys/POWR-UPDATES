@@ -9,10 +9,13 @@ export function AboutSection() {
       
       <Container className="relative z-10">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+          }}
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 flex items-center justify-center gap-3">

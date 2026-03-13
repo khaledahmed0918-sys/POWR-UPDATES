@@ -13,7 +13,7 @@ export function ProgressBar({ progress, className, color = 'bg-red-600' }: Progr
       <motion.div
         initial={{ width: 0 }}
         whileInView={{ width: `${progress}%` }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className={cn("h-full rounded-full", color)}
       />
