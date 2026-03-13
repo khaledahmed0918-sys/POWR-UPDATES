@@ -5,8 +5,10 @@
 
 import { MainLayout } from './components/layout/MainLayout';
 import { HeroSection } from './components/sections/HeroSection';
+import { AboutSection } from './components/sections/AboutSection';
 import { FeaturesSection } from './components/sections/FeaturesSection';
 import { StatsSection } from './components/sections/StatsSection';
+import { TournamentsSection } from './components/sections/TournamentsSection';
 import { LatestNewsSection } from './components/sections/LatestNewsSection';
 import { SocialsSection } from './components/sections/SocialsSection';
 import { CreditsSection } from './components/sections/CreditsSection';
@@ -16,8 +18,10 @@ export default function App() {
   return (
     <MainLayout>
       <HeroSection />
+      <AboutSection />
       <FeaturesSection />
       <StatsSection />
+      <TournamentsSection />
       <LatestNewsSection />
       <SocialsSection />
       <CreditsSection />

@@ -53,7 +53,7 @@ export function LatestNewsSection() {
 
   useEffect(() => {
     loadTweets();
-    const interval = setInterval(() => loadTweets(), 45000);
+    const interval = setInterval(() => loadTweets(), 30000);
     return () => clearInterval(interval);
   }, []);
 
