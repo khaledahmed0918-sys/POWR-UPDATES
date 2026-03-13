@@ -19,11 +19,17 @@ export function LatestNewsSection() {
   const fetchTweets = async () => {
     try {
       const response = await fetch('/api/twitter');
-      if (!response.ok) throw new Error('Failed to fetch tweets');
+      if (!response.ok) throw new Error(`Failed to fetch tweets: ${response.status}`);
       
       const xmlText = await response.text();
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+      
+      // Check if the parser returned an error document
+      const parserError = xmlDoc.querySelector('parsererror');
+      if (parserError) {
+        throw new Error('Failed to parse RSS XML. The server might have returned HTML.');
+      }
       
       const items = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 5);
       
@@ -39,7 +45,8 @@ export function LatestNewsSection() {
       setTweets(parsedTweets);
       setError(null);
     } catch (err) {
-      console.error('Error fetching tweets:', err);
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error fetching tweets:', errorMessage);
       setError('تعذر جلب التغريدات حالياً. سيتم المحاولة مرة أخرى.');
     } finally {
       setLoading(false);

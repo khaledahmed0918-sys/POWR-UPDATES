@@ -16,6 +16,9 @@ export function HeroSection() {
           alt="POWR UPDATES Banner" 
           className="w-full h-full object-cover object-center opacity-90"
           referrerPolicy="no-referrer"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
         />
       </div>
 

@@ -15,6 +15,8 @@ const sizeClasses = {
 };
 
 export function Avatar({ src, alt, size = 'md', className }: AvatarProps) {
+  const isLarge = size === 'xl' || size === 'lg';
+  
   return (
     <div className={cn("relative rounded-full overflow-hidden border-4 border-black/50 shadow-2xl", sizeClasses[size], className)}>
       <img
@@ -22,7 +24,9 @@ export function Avatar({ src, alt, size = 'md', className }: AvatarProps) {
         alt={alt}
         className="w-full h-full object-cover"
         referrerPolicy="no-referrer"
-        loading="lazy"
+        loading={isLarge ? "eager" : "lazy"}
+        fetchPriority={isLarge ? "high" : "auto"}
+        decoding="async"
       />
     </div>
   );
