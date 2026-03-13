@@ -1,56 +1,83 @@
 export async function onRequest() {
   const username = "powrupdates";
   
-  // nitter.net is frequently down or blocked. We use a list of active instances.
   const instances = [
     "nitter.poast.org",
     "nitter.privacydev.net",
     "nitter.projectsegfau.lt",
+    "nitter.cz",
+    "nitter.catsarch.com",
+    "nitter.salastil.com",
+    "nitter.lucabased.xyz",
+    "nitter.perennialte.ch",
+    "nitter.woodland.cafe",
     "nitter.net"
   ];
 
-  let lastError = "";
-
-  for (const instance of instances) {
+  const fetchInstance = async (instance) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4500);
+    
     try {
       const response = await fetch(`https://${instance}/${username}/rss`, {
+        signal: controller.signal,
         headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
           "Accept": "application/rss+xml, application/xml, text/xml"
-        },
-        // Cloudflare specific fetch options to cache the response
-        cf: {
-          cacheTtl: 60,
-          cacheEverything: true
         }
       });
-
-      if (response.ok) {
-        const xml = await response.text();
-        // Basic validation to ensure it's actually XML/RSS and not an HTML error page or Cloudflare challenge
-        if (xml.includes("<rss") || xml.includes("<feed")) {
-          return new Response(xml, {
-            headers: {
-              "content-type": "application/xml;charset=UTF-8",
-              "access-control-allow-origin": "*",
-              "cache-control": "public, max-age=60"
-            }
-          });
-        }
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      
+      const xml = await response.text();
+      const trimmed = xml.trim();
+      // Strictly check if it starts with XML or RSS tags to avoid parsing HTML error pages
+      if (!trimmed.startsWith("<?xml") && !trimmed.startsWith("<rss")) {
+        throw new Error("Invalid XML format");
       }
-      lastError = `Instance ${instance} returned ${response.status}`;
+      return trimmed;
     } catch (error) {
-      lastError = `Instance ${instance} failed: ${error.message}`;
-      continue; // Try the next instance
+      clearTimeout(timeoutId);
+      throw error;
     }
-  }
+  };
 
-  // If all instances fail, return a 502 Bad Gateway with the last error
-  return new Response(`<?xml version="1.0" encoding="UTF-8"?><error><message>All Nitter instances failed</message><details>${lastError}</details></error>`, { 
-    status: 502,
-    headers: {
-      "content-type": "application/xml;charset=UTF-8",
-      "access-control-allow-origin": "*"
+  try {
+    const xml = await Promise.any(instances.map(fetchInstance));
+    
+    const items = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
+    while ((match = itemRegex.exec(xml)) !== null) {
+      const itemXml = match[1];
+      const titleMatch = itemXml.match(/<title>([\s\S]*?)<\/title>/);
+      const linkMatch = itemXml.match(/<link>([\s\S]*?)<\/link>/);
+      const pubDateMatch = itemXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
+      
+      if (titleMatch && linkMatch) {
+        items.push({
+          text: titleMatch[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim(),
+          url: linkMatch[1].trim(),
+          date: pubDateMatch ? pubDateMatch[1].trim() : ''
+        });
+      }
     }
-  });
+    
+    return new Response(JSON.stringify(items.slice(0, 5)), {
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=60"
+      }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Failed to fetch from all Nitter instances" }), {
+      status: 502,
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        "access-control-allow-origin": "*"
+      }
+    });
+  }
 }

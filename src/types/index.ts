@@ -20,4 +20,11 @@ export interface CreditPerson {
   role: string;
   name: string;
   avatar: string;
+  socials?: {
+    platform: string;
+    url: string;
+    username?: string;
+    color: string;
+    icon: React.ElementType;
+  }[];
 }
