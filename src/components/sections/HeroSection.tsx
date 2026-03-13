@@ -30,7 +30,7 @@ export function HeroSection() {
           className="flex flex-col items-center mt-40 md:mt-64"
         >
           <Avatar 
-            src="https://i.postimg.cc/mgqrqxng/IMG_9107.jpg" 
+            src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
             alt="POWR UPDATES Avatar" 
             size="xl"
             className="mb-6 shadow-[0_0_50px_rgba(139,0,0,0.6)] border-red-900/50 transition-transform duration-500 hover:scale-105"

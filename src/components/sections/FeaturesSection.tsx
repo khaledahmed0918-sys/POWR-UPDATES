@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
-import { FaBolt, FaBullseye, FaStar } from 'react-icons/fa6';
+import { FaBolt, FaBullseye, FaBookOpen } from 'react-icons/fa6';
 
 const features = [
   {
@@ -16,9 +16,9 @@ const features = [
     description: 'نحرص على توفير المعلومات من مصادرها الموثوقة لضمان أعلى معايير الدقة.'
   },
   {
-    icon: FaStar,
-    title: 'تغطية حصرية',
-    description: 'محتوى حصري ومقابلات وتغطيات خاصة لا تجدها في أي مكان آخر.'
+    icon: FaBookOpen,
+    title: 'ملخصات سريعة',
+    description: 'تلخيص احداث فريق باور بطريقة مُبسطة وسريعة لتكون على اطلاع دائم بكل جديد.'
   }
 ];
 
@@ -31,7 +31,6 @@ export function FeaturesSection() {
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
           variants={{
             visible: {
               transition: {
@@ -49,10 +48,10 @@ export function FeaturesSection() {
               }}
             >
               <Card className="flex flex-col items-center text-center h-full">
-                <div className="w-20 h-20 rounded-full bg-red-900/20 flex items-center justify-center mb-6 text-red-500 shadow-[0_0_20px_rgba(139,0,0,0.2)]">
-                  <feature.icon size={32} />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
+                <h3 className="text-2xl font-bold text-white mb-4 flex items-center justify-center gap-2">
+                  <feature.icon size={24} className="text-red-500" />
+                  {feature.title}
+                </h3>
                 <p className="text-gray-400 leading-relaxed text-lg">{feature.description}</p>
               </Card>
             </motion.div>
