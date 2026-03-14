@@ -24,11 +24,12 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     build: {
+      chunkSizeWarningLimit: 1500,
       rollupOptions: {
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              if (id.includes('react') || id.includes('react-dom')) {
+              if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
                 return 'vendor-react';
               }
               if (id.includes('motion') || id.includes('framer-motion')) {
@@ -37,7 +38,7 @@ export default defineConfig(({mode}) => {
               if (id.includes('react-icons')) {
                 return 'vendor-icons';
               }
-              return 'vendor-core';
+              // Let Rollup handle the rest automatically to prevent circular dependencies
             }
           }
         }
