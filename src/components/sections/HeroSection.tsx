@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Avatar } from '../ui/Avatar';
 import { Container } from '../layout/Container';
+import { Diamond3D } from '../3d/Diamond3D';
 
 export function HeroSection() {
   return (
@@ -35,15 +36,19 @@ export function HeroSection() {
             size="xl"
             className="mb-6 shadow-[0_0_50px_rgba(139,0,0,0.6)] border-red-900/50 transition-transform duration-500 hover:scale-105"
           />
-          <h1 className="text-5xl md:text-7xl font-black text-center tracking-wider text-white drop-shadow-2xl leading-tight">
+          <h1 className="text-5xl md:text-7xl font-black text-center tracking-wider text-white drop-shadow-2xl leading-tight relative z-30">
             POWR<br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">UPDATES</span>
           </h1>
+          
+          {/* 3D Diamond Model */}
+          <Diamond3D />
+
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="mt-6 text-gray-300 text-lg md:text-xl font-medium text-center max-w-2xl leading-relaxed"
+            className="mt-6 text-gray-300 text-lg md:text-xl font-medium text-center max-w-2xl leading-relaxed relative z-30"
           >
             المصدر الأول والأسرع لأخبار وتحديثات باور إيسبورتس. نضعك في قلب الحدث لحظة بلحظة.
           </motion.p>

@@ -15,7 +15,7 @@ export interface SocialLink {
   name: string;
   url: string;
   color: string;
-  icon: React.ElementType;
+  icon: any;
 }
 
 export interface CreditPerson {
@@ -27,6 +27,6 @@ export interface CreditPerson {
     url: string;
     username?: string;
     color: string;
-    icon: React.ElementType;
+    icon: any;
   }[];
 }

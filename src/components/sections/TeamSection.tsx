@@ -59,6 +59,7 @@ export function TeamSection() {
           className="flex flex-wrap justify-center gap-8 mt-12"
           initial="hidden"
           whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
           variants={{
             visible: {
               transition: {
