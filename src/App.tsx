@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState } from 'react';
 import { MainLayout } from './components/layout/MainLayout';
 import { HeroSection } from './components/sections/HeroSection';
 import { AboutSection } from './components/sections/AboutSection';
@@ -17,8 +18,11 @@ import { SocialsSection } from './components/sections/SocialsSection';
 import { CreditsSection } from './components/sections/CreditsSection';
 import { FooterSection } from './components/sections/FooterSection';
 import { CombinedSection } from './components/sections/CombinedSection';
+import { ImagePopup } from './components/ui/ImagePopup';
 
 export default function App() {
+  const [popupImage, setPopupImage] = useState<string | null>(null);
+
   return (
     <MainLayout>
       <HeroSection />
@@ -35,11 +39,13 @@ export default function App() {
       
       <AchievementsSection />
       <TournamentsSection />
-      <LatestVideosSection />
+      <LatestVideosSection setPopupImage={setPopupImage} />
       <LatestNewsSection />
       <TeamSection />
       <CreditsSection />
       <FooterSection />
+      
+      <ImagePopup isOpen={!!popupImage} onClose={() => setPopupImage(null)} imageUrl={popupImage || ''} />
     </MainLayout>
   );
 }

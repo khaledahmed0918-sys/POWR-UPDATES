@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
-import { FaPlay, FaEye, FaHeart, FaXmark } from 'react-icons/fa6';
+import { FaPlay, FaEye, FaHeart } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
-import { ImagePopup } from '../ui/ImagePopup';
 
 interface Video {
   channelId: string;
@@ -40,12 +39,10 @@ function ProgressiveImage({ src, alt, className }: { src: string, alt: string, c
   );
 }
 
-export function LatestVideosSection() {
+export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: string) => void }) {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const [popupImage, setPopupImage] = useState<string | null>(null);
 
   async function loadVideos() {
     try {
@@ -131,18 +128,18 @@ export function LatestVideosSection() {
 
       <div 
         dir="ltr" 
-        className="w-full overflow-x-auto mt-8 relative scroll-smooth snap-x snap-mandatory"
+        className="w-full overflow-hidden mt-8 relative"
       >
         <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#0a0000] to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
         
         <div 
-          className="flex w-max gap-8 px-4 pb-4"
+          className="flex w-max gap-8 px-4 pb-4 animate-marquee"
         >
-          {videos.map((video, index) => (
+          {[...videos, ...videos].map((video, index) => (
             <div 
               key={`${video.videoId}-${index}`}
-              className="w-[320px] flex-shrink-0 group cursor-pointer snap-start"
+              className="w-[320px] flex-shrink-0 group cursor-pointer"
               dir="rtl"
             >
               <Card className="flex flex-col h-full border-white/10 hover:border-red-600/50 hover:shadow-[0_10px_40px_-10px_rgba(220,38,38,0.3)] transition-all duration-300 p-0 overflow-hidden">
@@ -187,7 +184,6 @@ export function LatestVideosSection() {
           ))}
         </div>
       </div>
-      <ImagePopup isOpen={!!popupImage} onClose={() => setPopupImage(null)} imageUrl={popupImage || ''} />
     </TimelineSection>
   );
 }
