@@ -4,8 +4,8 @@ export const statsData: StatData[] = [
   {
     id: 'followers',
     label: 'المتابعون',
-    value: '+17,800',
-    numericValue: 17800,
+    value: '+18,000',
+    numericValue: 18000,
     goal: '20K',
     numericGoal: 20000,
   },
