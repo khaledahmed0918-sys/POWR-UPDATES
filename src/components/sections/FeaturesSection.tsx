@@ -48,7 +48,9 @@ export function FeaturesSection() {
           >
             <Card className="flex flex-col items-center text-center h-full">
               <h3 className="text-2xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-                <feature.icon size={24} className="text-red-500" />
+                <div className="text-red-500">
+                  <feature.icon size={24} />
+                </div>
                 {feature.title}
               </h3>
               <p className="text-gray-400 leading-relaxed text-lg">{feature.description}</p>

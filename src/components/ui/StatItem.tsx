@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { Card } from '../ui/Card';
 import { ProgressBar } from '../ui/ProgressBar';
@@ -5,10 +6,9 @@ import { StatData } from '../../types';
 
 interface StatItemProps {
   stat: StatData;
-  index: number;
 }
 
-export function StatItem({ stat, index }: StatItemProps) {
+export const StatItem: React.FC<StatItemProps> = ({ stat }) => {
   // Determine if it needs a progress bar
   const hasProgress = stat.id === 'followers';
   
@@ -46,4 +46,4 @@ export function StatItem({ stat, index }: StatItemProps) {
       </Card>
     </motion.div>
   );
-}
+};

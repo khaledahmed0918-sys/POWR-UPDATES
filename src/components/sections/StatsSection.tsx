@@ -23,8 +23,8 @@ export function StatsSection() {
           }
         }}
       >
-        {statsData.map((stat, index) => (
-          <StatItem key={stat.id} stat={stat} index={index} />
+        {statsData.map((stat) => (
+          <StatItem key={stat.id} stat={stat} />
         ))}
       </motion.div>
     </div>

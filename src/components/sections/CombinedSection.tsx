@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
 import { Container } from '../layout/Container';
 import { TimelineSection } from '../layout/TimelineSection';
 
 interface CombinedSectionProps {
-  left: React.ReactNode;
-  right: React.ReactNode;
+  left: ReactNode;
+  right: ReactNode;
 }
 
 export function CombinedSection({ left, right }: CombinedSectionProps) {

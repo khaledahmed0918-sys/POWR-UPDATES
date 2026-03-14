@@ -66,12 +66,16 @@ export function AchievementsSection() {
             >
               <Card className="flex items-center gap-6 p-6 border-white/10 hover:border-red-500/50 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)] transition-all duration-300">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-900/40 to-red-600/20 flex items-center justify-center flex-shrink-0 border border-red-500/20">
-                  <achievement.icon size={28} className="text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.8)]" />
+                  <div className="text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.8)]">
+                    <achievement.icon size={28} />
+                  </div>
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-bold text-white mb-1">{achievement.title}</h3>
                   <div className="flex items-center gap-2 text-gray-400 text-sm">
-                    <FaCalendarCheck className="text-red-500/70" />
+                    <div className="text-red-500/70">
+                      <FaCalendarCheck />
+                    </div>
                     <span>{achievement.date}</span>
                   </div>
                 </div>

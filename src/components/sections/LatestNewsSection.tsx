@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
@@ -26,7 +27,14 @@ export function LatestNewsSection() {
   const [error, setError] = useState<string | null>(null);
   
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [constraints, setConstraints] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setConstraints(containerRef.current.scrollWidth - containerRef.current.offsetWidth);
+    }
+  }, [tweets]);
 
   async function loadTweets() {
     try {
@@ -185,22 +193,14 @@ export function LatestNewsSection() {
         </div>
       )}
       
-      {/* CSS Marquee Container */}
-      <div 
-        dir="ltr" 
-        className="w-full overflow-hidden mt-8 relative"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)}
-        onTouchEnd={() => setIsPaused(false)}
-      >
-        <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#0a0000] to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
-        
-        <div 
-          className={`flex w-max gap-8 px-4 pb-4 animate-marquee ${isPaused ? '![animation-play-state:paused]' : ''}`}
+      <div className="w-full overflow-hidden mt-8 relative cursor-grab active:cursor-grabbing" ref={containerRef}>
+        <motion.div 
+          className="flex w-max gap-8 px-4 pb-4"
+          drag="x"
+          dragConstraints={{ right: 0, left: -constraints }}
+          whileTap={{ cursor: "grabbing" }}
         >
-          {[...tweets, ...tweets].map((tweet, index) => (
+          {tweets.map((tweet, index) => (
             <a 
               key={`${tweet.url || index}-${index}`}
               href={tweet.url || "https://x.com/powrupdates"}
@@ -212,13 +212,16 @@ export function LatestNewsSection() {
               <Card className="flex flex-col h-full text-right border-white/10 hover:border-[#1DA1F2]/50 hover:shadow-[0_10px_40px_-10px_rgba(29,161,242,0.3)] transition-all duration-300">
                 
                 {/* Header: Avatar & Name */}
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-white/5 border border-white/10 flex-shrink-0">
                       <img 
                         src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
                         alt="POWR UPDATES" 
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png";
                         }}
@@ -229,7 +232,9 @@ export function LatestNewsSection() {
                       <span className="text-xs text-gray-500" dir="rtl">{formatDate(tweet.date)}</span>
                     </div>
                   </div>
-                  <FaXTwitter className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300" size={20} />
+                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300">
+                    <FaXTwitter size={20} />
+                  </div>
                 </div>
 
                 {/* Body: Text */}
@@ -256,7 +261,9 @@ export function LatestNewsSection() {
                             <>
                               <video src={img} className="absolute inset-0 w-full h-full object-cover" />
                               <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover/media:bg-black/50 transition-colors">
-                                <FaPlay className="text-white opacity-80" size={32} />
+                                <div className="text-white opacity-80">
+                                  <FaPlay size={32} />
+                                </div>
                               </div>
                             </>
                           ) : (
@@ -265,6 +272,7 @@ export function LatestNewsSection() {
                               alt="Tweet media" 
                               className="absolute inset-0 w-full h-full object-cover group-hover/media:scale-105 transition-transform duration-500" 
                               loading="lazy" 
+                              decoding="async"
                               referrerPolicy="no-referrer" 
                             />
                           )}
@@ -293,7 +301,7 @@ export function LatestNewsSection() {
               </Card>
             </a>
           ))}
-        </div>
+        </motion.div>
       </div>
     </TimelineSection>
   );

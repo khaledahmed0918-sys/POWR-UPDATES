@@ -83,7 +83,9 @@ export function TeamSection() {
             >
               {/* Role Badge */}
               <div className="absolute -top-4 bg-black/80 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10">
-                <member.icon className={`${member.color} text-sm`} />
+                <div className={`${member.color} text-sm`}>
+                  <member.icon />
+                </div>
                 <span className="text-xs font-bold text-gray-200">{member.role}</span>
               </div>
 
@@ -105,7 +107,9 @@ export function TeamSection() {
                   {member.username}
                 </span>
                 <div className="mt-3 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DA1F2]/20 transition-colors duration-300 border border-white/10 group-hover:border-[#1DA1F2]/30">
-                  <FaXTwitter className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300" size={14} />
+                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300 text-[14px]">
+                    <FaXTwitter />
+                  </div>
                 </div>
               </div>
             </motion.a>

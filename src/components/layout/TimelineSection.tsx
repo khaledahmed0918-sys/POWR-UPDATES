@@ -1,9 +1,9 @@
-import { useRef } from 'react';
+import { useRef, ReactNode } from 'react';
 import { motion, useScroll, useSpring } from 'motion/react';
 import { cn } from '../../utils/cn';
 
 interface TimelineSectionProps {
-  children: React.ReactNode;
+  children: ReactNode;
   isSplit?: boolean;
   className?: string;
   isLast?: boolean;

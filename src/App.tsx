@@ -11,6 +11,7 @@ import { AchievementsSection } from './components/sections/AchievementsSection';
 import { StatsSection } from './components/sections/StatsSection';
 import { TournamentsSection } from './components/sections/TournamentsSection';
 import { LatestNewsSection } from './components/sections/LatestNewsSection';
+import { LatestVideosSection } from './components/sections/LatestVideosSection';
 import { TeamSection } from './components/sections/TeamSection';
 import { SocialsSection } from './components/sections/SocialsSection';
 import { CreditsSection } from './components/sections/CreditsSection';
@@ -34,6 +35,7 @@ export default function App() {
       
       <AchievementsSection />
       <TournamentsSection />
+      <LatestVideosSection />
       <LatestNewsSection />
       <TeamSection />
       <CreditsSection />

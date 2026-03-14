@@ -71,7 +71,9 @@ export function CreditsSection() {
                           style={{ color: social.color }}
                           title="Copy Discord Username"
                         >
-                          {isCopied ? <FaCheck size={18} className="text-green-500" /> : <Icon size={18} />}
+                          <div className={isCopied ? "text-green-500" : ""}>
+                            {isCopied ? <FaCheck size={18} /> : <Icon size={18} />}
+                          </div>
                           {/* Tooltip */}
                           <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/90 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">
                             {isCopied ? 'تم النسخ!' : social.username}
@@ -93,7 +95,9 @@ export function CreditsSection() {
                         }`}
                         style={{ color: social.color }}
                       >
-                        <Icon size={18} className={social.platform === 'X' ? "drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" : ""} />
+                        <div className={social.platform === 'X' ? "drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" : ""}>
+                          <Icon size={18} />
+                        </div>
                       </a>
                     );
                   })}
