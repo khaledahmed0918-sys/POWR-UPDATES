@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion, useAnimation } from 'motion/react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
 import { FaXTwitter, FaHeart, FaRetweet, FaDownload, FaXmark, FaPlay } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
+import { MARQUEE_DURATION } from '../../constants';
 
 interface Tweet {
   text: string;
@@ -29,12 +30,22 @@ export function LatestNewsSection() {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [constraints, setConstraints] = useState(0);
+  const controls = useAnimation();
 
   useEffect(() => {
     if (containerRef.current) {
       setConstraints(containerRef.current.scrollWidth - containerRef.current.offsetWidth);
     }
   }, [tweets]);
+
+  useEffect(() => {
+    if (constraints > 0) {
+      controls.start({
+        x: [0, -constraints / 2],
+        transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
+      });
+    }
+  }, [controls, constraints]);
 
   async function loadTweets() {
     try {
@@ -197,8 +208,14 @@ export function LatestNewsSection() {
         <motion.div 
           className="flex w-max gap-8 px-4 pb-4"
           drag="x"
-          dragConstraints={{ right: 0, left: -constraints }}
+          dragConstraints={{ right: 0, left: -constraints / 2 }}
           whileTap={{ cursor: "grabbing" }}
+          animate={controls}
+          onDragStart={() => controls.stop()}
+          onDragEnd={() => controls.start({
+            x: [0, -constraints / 2],
+            transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
+          })}
         >
           {tweets.map((tweet, index) => (
             <a 

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion, useAnimation } from 'motion/react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
 import { FaPlay, FaEye, FaHeart } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
+import { MARQUEE_DURATION } from '../../constants';
 
 interface Video {
   channelId: string;
@@ -25,12 +26,22 @@ export function LatestVideosSection() {
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [constraints, setConstraints] = useState(0);
+  const controls = useAnimation();
 
   useEffect(() => {
     if (containerRef.current) {
       setConstraints(containerRef.current.scrollWidth - containerRef.current.offsetWidth);
     }
   }, [videos]);
+
+  useEffect(() => {
+    if (constraints > 0) {
+      controls.start({
+        x: [0, -constraints / 2],
+        transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
+      });
+    }
+  }, [controls, constraints]);
 
   async function loadVideos() {
     try {
@@ -118,8 +129,14 @@ export function LatestVideosSection() {
         <motion.div 
           className="flex w-max gap-8 px-4 pb-4"
           drag="x"
-          dragConstraints={{ right: 0, left: -constraints }}
+          dragConstraints={{ right: 0, left: -constraints / 2 }}
           whileTap={{ cursor: "grabbing" }}
+          animate={controls}
+          onDragStart={() => controls.stop()}
+          onDragEnd={() => controls.start({
+            x: [0, -constraints / 2],
+            transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
+          })}
         >
           {videos.map((video, index) => (
             <a 
