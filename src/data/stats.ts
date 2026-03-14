@@ -28,13 +28,6 @@ export const statsData: StatData[] = [
     numericValue: 2900000,
   },
   {
-    id: 'engagementRate',
-    label: 'نسبة التفاعل',
-    value: '4.7%',
-    numericValue: 4.7,
-    isPercentage: true,
-  },
-  {
     id: 'profileVisits',
     label: 'زيارات الملف الشخصي',
     value: '+541.7K',
@@ -57,12 +50,6 @@ export const statsData: StatData[] = [
     label: 'إعادات النشر',
     value: '+24.3K',
     numericValue: 24300,
-  },
-  {
-    id: 'bookmarks',
-    label: 'العلامات المرجعية',
-    value: '+31.4K',
-    numericValue: 31400,
   },
   {
     id: 'shares',

@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { creditsData } from '../../data/credits';
 import { Container } from '../layout/Container';
 import { FaCheck } from 'react-icons/fa6';
+import { TimelineSection } from '../layout/TimelineSection';
 
 export function CreditsSection() {
   const [copiedDiscord, setCopiedDiscord] = useState<string | null>(null);
@@ -14,7 +15,7 @@ export function CreditsSection() {
   };
 
   return (
-    <section className="w-full py-12 border-t border-white/10 mt-8 bg-black/40">
+    <TimelineSection className="border-t border-white/10 bg-black/40" isLast>
       <Container>
         <motion.div 
           className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16"
@@ -36,7 +37,7 @@ export function CreditsSection() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
-              className="flex flex-col items-center gap-4 bg-white/5 px-8 py-6 rounded-3xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors"
+              className="flex flex-col items-center gap-4 bg-white/5 px-8 py-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors"
             >
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-red-900 shadow-[0_0_15px_rgba(153,27,27,0.5)]">
@@ -85,10 +86,14 @@ export function CreditsSection() {
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-full border border-white/20 bg-black/50 hover:bg-white/10 transition-all duration-300"
+                        className={`p-2 rounded-full border bg-black/50 transition-all duration-300 ${
+                          social.platform === 'X' 
+                            ? 'border-white/30 hover:bg-white/10 hover:border-white/60 hover:shadow-[0_0_10px_rgba(255,255,255,0.3)]' 
+                            : 'border-white/20 hover:bg-white/10'
+                        }`}
                         style={{ color: social.color }}
                       >
-                        <Icon size={18} />
+                        <Icon size={18} className={social.platform === 'X' ? "drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" : ""} />
                       </a>
                     );
                   })}
@@ -98,6 +103,6 @@ export function CreditsSection() {
           ))}
         </motion.div>
       </Container>
-    </section>
+    </TimelineSection>
   );
 }

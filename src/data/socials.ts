@@ -6,7 +6,7 @@ export const socialLinks: SocialLink[] = [
     id: 'x',
     name: 'X',
     url: 'https://x.com/powrupdates?s=21',
-    color: '#000000', // X is black/white, but we can use white for dark mode
+    color: '#ffffff', // White for dark mode contrast
     icon: FaXTwitter,
   },
   {

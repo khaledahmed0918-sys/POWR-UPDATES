@@ -15,19 +15,27 @@ import { TeamSection } from './components/sections/TeamSection';
 import { SocialsSection } from './components/sections/SocialsSection';
 import { CreditsSection } from './components/sections/CreditsSection';
 import { FooterSection } from './components/sections/FooterSection';
+import { CombinedSection } from './components/sections/CombinedSection';
 
 export default function App() {
   return (
     <MainLayout>
       <HeroSection />
-      <AboutSection />
-      <FeaturesSection />
+      
+      <CombinedSection 
+        left={<AboutSection />} 
+        right={<SocialsSection />} 
+      />
+      
+      <CombinedSection 
+        left={<FeaturesSection />} 
+        right={<StatsSection />} 
+      />
+      
       <AchievementsSection />
-      <StatsSection />
       <TournamentsSection />
       <LatestNewsSection />
       <TeamSection />
-      <SocialsSection />
       <CreditsSection />
       <FooterSection />
     </MainLayout>

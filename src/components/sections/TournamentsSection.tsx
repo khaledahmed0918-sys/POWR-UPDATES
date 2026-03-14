@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
+import { TimelineSection } from '../layout/TimelineSection';
 
 const tournaments = [
   { name: 'الكينقز ليق', icon: '👑' },
@@ -11,7 +12,7 @@ const tournaments = [
 
 export function TournamentsSection() {
   return (
-    <section className="relative w-full py-40 md:py-48 overflow-hidden">
+    <TimelineSection className="overflow-hidden">
       {/* Background Image - Masked to perfectly reveal the site's global background gradient */}
       <div 
         className="absolute inset-0 z-0 w-full h-full pointer-events-none"
@@ -31,7 +32,7 @@ export function TournamentsSection() {
         <div className="absolute inset-0 bg-[#1A0505]/40" />
       </div>
       
-      <Container className="relative z-10">
+      <Container className="relative z-10 py-24">
         <SectionTitle 
           title="البـطـولات اللي غـطيناها خلال هذا العام" 
           subtitle="تغطية حصرية لأبرز الأحداث والبطولات المحلية والعالمية" 
@@ -71,6 +72,6 @@ export function TournamentsSection() {
           ))}
         </motion.div>
       </Container>
-    </section>
+    </TimelineSection>
   );
 }

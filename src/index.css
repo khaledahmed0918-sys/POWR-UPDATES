@@ -9,27 +9,24 @@
   --color-glass-border: rgba(255, 255, 255, 0.1);
 }
 
+html, body {
+  position: relative;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Tajawal', sans-serif;
   background: linear-gradient(to bottom, var(--color-brand-dark), #0a0000);
   color: white;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-/* Hide scrollbar for cleaner look but keep functionality */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-brand-dark);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-brand-red);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #a00000;
 }
 
 /* Marquee Animation */

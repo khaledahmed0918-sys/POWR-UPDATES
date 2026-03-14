@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { FaXTwitter, FaCrown, FaStar, FaPenNib, FaHandshake } from 'react-icons/fa6';
+import { TimelineSection } from '../layout/TimelineSection';
 
 const teamMembers = [
   {
@@ -48,7 +49,7 @@ const teamMembers = [
 
 export function TeamSection() {
   return (
-    <section className="w-full py-16 relative bg-black/40 border-y border-white/5">
+    <TimelineSection className="bg-black/40 border-y border-white/5">
       <Container>
         <SectionTitle 
           title="فريق العمل" 
@@ -103,14 +104,14 @@ export function TeamSection() {
                 <span className="text-sm md:text-base font-bold text-white group-hover:text-[#1DA1F2] transition-colors duration-300 truncate w-full" dir="ltr">
                   {member.username}
                 </span>
-                <div className="mt-3 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DA1F2]/20 transition-colors duration-300">
-                  <FaXTwitter className="text-gray-400 group-hover:text-[#1DA1F2] transition-colors duration-300" size={14} />
+                <div className="mt-3 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DA1F2]/20 transition-colors duration-300 border border-white/10 group-hover:border-[#1DA1F2]/30">
+                  <FaXTwitter className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300" size={14} />
                 </div>
               </div>
             </motion.a>
           ))}
         </motion.div>
       </Container>
-    </section>
+    </TimelineSection>
   );
 }

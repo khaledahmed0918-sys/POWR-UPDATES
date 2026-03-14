@@ -10,14 +10,11 @@ interface StatItemProps {
 
 export function StatItem({ stat, index }: StatItemProps) {
   // Determine if it needs a progress bar
-  const hasProgress = stat.id === 'followers' || stat.id === 'engagementRate';
+  const hasProgress = stat.id === 'followers';
   
   let progressValue = 0;
   if (stat.id === 'followers' && stat.numericValue && stat.numericGoal) {
     progressValue = (stat.numericValue / stat.numericGoal) * 100;
-  } else if (stat.id === 'engagementRate' && stat.numericValue) {
-    // Assuming 10% is a very high engagement rate for the progress bar scale
-    progressValue = Math.min((stat.numericValue / 10) * 100, 100);
   }
 
   return (
@@ -42,7 +39,7 @@ export function StatItem({ stat, index }: StatItemProps) {
           <div className="w-full mt-3">
             <ProgressBar 
               progress={progressValue} 
-              color={stat.id === 'followers' ? 'bg-red-600' : 'bg-red-500'} 
+              color="bg-red-600" 
             />
           </div>
         )}

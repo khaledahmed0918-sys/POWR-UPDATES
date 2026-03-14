@@ -10,7 +10,7 @@ export const creditsData: CreditPerson[] = [
       {
         platform: 'X',
         url: 'https://x.com/powrupdates?s=21',
-        color: '#1DA1F2',
+        color: '#ffffff',
         icon: FaXTwitter
       }
     ]
@@ -23,7 +23,7 @@ export const creditsData: CreditPerson[] = [
       {
         platform: 'X',
         url: 'https://x.com/i_mohammedqht?s=21',
-        color: '#1DA1F2',
+        color: '#ffffff',
         icon: FaXTwitter
       },
       {

@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Container } from '../layout/Container';
 import { Card } from '../ui/Card';
 import { FaTrophy, FaCalendarCheck } from 'react-icons/fa6';
+import { TimelineSection } from '../layout/TimelineSection';
 
 const achievements = [
   {
@@ -18,7 +19,7 @@ const achievements = [
 
 export function AchievementsSection() {
   return (
-    <section className="w-full py-16 relative bg-black/30 border-y border-white/5">
+    <TimelineSection className="bg-black/30 border-y border-white/5">
       <Container>
         <div className="flex flex-col items-center mb-16">
           <div 
@@ -79,6 +80,6 @@ export function AchievementsSection() {
           ))}
         </div>
       </Container>
-    </section>
+    </TimelineSection>
   );
 }

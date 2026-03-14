@@ -3,6 +3,7 @@ import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
 import { FaXTwitter, FaHeart, FaRetweet, FaDownload, FaXmark, FaPlay } from 'react-icons/fa6';
+import { TimelineSection } from '../layout/TimelineSection';
 
 interface Tweet {
   text: string;
@@ -93,7 +94,7 @@ export function LatestNewsSection() {
 
   if (loading) {
     return (
-      <section className="w-full py-16 bg-black/20 border-y border-white/5 overflow-hidden">
+      <TimelineSection className="bg-black/20 border-y border-white/5 overflow-hidden">
         <Container>
           <SectionTitle title="أحدث التغريدات" subtitle="جاري تحميل التغريدات..." />
         </Container>
@@ -120,25 +121,25 @@ export function LatestNewsSection() {
             ))}
           </div>
         </div>
-      </section>
+      </TimelineSection>
     );
   }
 
   if (error && tweets.length === 0) {
     return (
-      <section className="w-full py-16 bg-black/20 border-y border-white/5">
+      <TimelineSection className="bg-black/20 border-y border-white/5">
         <Container>
           <SectionTitle title="أحدث التغريدات" subtitle="مقتطفات من أحدث تغريداتنا على منصة X" />
           <div className="text-center text-red-400 py-8 bg-red-900/10 rounded-2xl border border-red-900/20">
             {error}
           </div>
         </Container>
-      </section>
+      </TimelineSection>
     );
   }
 
   return (
-    <section className="w-full py-16 bg-black/20 border-y border-white/5 overflow-hidden">
+    <TimelineSection className="bg-black/20 border-y border-white/5 overflow-hidden">
       <Container>
         <SectionTitle title="أحدث التغريدات" subtitle="مقتطفات من أحدث تغريداتنا على منصة X" />
       </Container>
@@ -228,7 +229,7 @@ export function LatestNewsSection() {
                       <span className="text-xs text-gray-500" dir="rtl">{formatDate(tweet.date)}</span>
                     </div>
                   </div>
-                  <FaXTwitter className="text-gray-400 group-hover:text-[#1DA1F2] transition-colors duration-300" size={20} />
+                  <FaXTwitter className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300" size={20} />
                 </div>
 
                 {/* Body: Text */}
@@ -294,6 +295,6 @@ export function LatestNewsSection() {
           ))}
         </div>
       </div>
-    </section>
+    </TimelineSection>
   );
 }
