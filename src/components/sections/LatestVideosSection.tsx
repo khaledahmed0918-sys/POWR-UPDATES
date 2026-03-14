@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'motion/react';
+import { useState, useEffect } from 'react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
 import { FaPlay, FaEye, FaHeart } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
-import { MARQUEE_DURATION } from '../../constants';
 
 interface Video {
   channelId: string;
@@ -24,28 +22,7 @@ export function LatestVideosSection() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [constraints, setConstraints] = useState(0);
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (containerRef.current) {
-      // The scrollWidth is the width of all items (videos + videos).
-      // We want to animate through one set of videos (half the scrollWidth).
-      const totalWidth = containerRef.current.scrollWidth;
-      const setWidth = totalWidth / 2;
-      setConstraints(setWidth);
-    }
-  }, [videos]);
-
-  useEffect(() => {
-    if (constraints > 0) {
-      controls.start({
-        x: [0, -constraints],
-        transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
-      });
-    }
-  }, [controls, constraints]);
+  const [isPaused, setIsPaused] = useState(false);
 
   async function loadVideos() {
     try {
@@ -129,20 +106,21 @@ export function LatestVideosSection() {
         <SectionTitle title="أحدث الفيديوهات" subtitle="آخر مقاطع صناع المحتوى في باور" />
       </Container>
 
-      <div className="w-full overflow-hidden mt-8 relative cursor-grab active:cursor-grabbing" ref={containerRef}>
-        <motion.div 
-          className="flex w-max gap-8 px-4 pb-4"
-          drag="x"
-          dragConstraints={{ right: 0, left: -constraints }}
-          whileTap={{ cursor: "grabbing" }}
-          animate={controls}
-          onDragStart={() => controls.stop()}
-          onDragEnd={() => controls.start({
-            x: [0, -constraints],
-            transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
-          })}
+      <div 
+        dir="ltr" 
+        className="w-full overflow-hidden mt-8 relative"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#0a0000] to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
+        
+        <div 
+          className={`flex w-max gap-8 px-4 pb-4 animate-marquee ${isPaused ? '![animation-play-state:paused]' : ''}`}
         >
-          {videos.map((video, index) => (
+          {[...videos, ...videos].map((video, index) => (
             <a 
               key={`${video.videoId}-${index}`}
               href={video.url}
@@ -158,7 +136,6 @@ export function LatestVideosSection() {
                     alt={video.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
-                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -172,7 +149,7 @@ export function LatestVideosSection() {
                   </h3>
                   
                   <div className="flex items-center gap-2 mb-4">
-                    <img src={video.channelAvatar} alt={video.channelName} className="w-6 h-6 rounded-full" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                    <img src={video.channelAvatar} alt={video.channelName} className="w-6 h-6 rounded-full" />
                     <span className="text-xs text-gray-400 truncate">{video.channelName}</span>
                   </div>
 
@@ -189,7 +166,7 @@ export function LatestVideosSection() {
               </Card>
             </a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </TimelineSection>
   );
