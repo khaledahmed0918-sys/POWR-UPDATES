@@ -44,7 +44,7 @@ export function FollowerDemographicsSection() {
                       whileInView={{ height: `${height}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.5, ease: "easeOut", delay: index * 0.1 }}
-                      className="w-full bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 rounded-t-sm relative shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                      className="w-full bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 rounded-t-sm relative shadow-[0_0_20px_rgba(37,99,235,0.4)] will-change-transform"
                     >
                       {/* Percentage Text */}
                       <motion.span
@@ -52,7 +52,7 @@ export function FollowerDemographicsSection() {
                         whileInView={{ opacity: 1, y: -35 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1.5, ease: "easeOut", delay: index * 0.1 }}
-                        className="absolute -top-10 w-full text-center text-white font-bold text-xs md:text-sm drop-shadow-md"
+                        className="absolute -top-10 w-full text-center text-white font-bold text-xs md:text-sm drop-shadow-md will-change-transform"
                       >
                         {c.percentage}%
                       </motion.span>
