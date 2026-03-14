@@ -34,14 +34,18 @@ export function LatestNewsSection() {
 
   useEffect(() => {
     if (containerRef.current) {
-      setConstraints(containerRef.current.scrollWidth - containerRef.current.offsetWidth);
+      // The scrollWidth is the width of all items (tweets + tweets).
+      // We want to animate through one set of tweets (half the scrollWidth).
+      const totalWidth = containerRef.current.scrollWidth;
+      const setWidth = totalWidth / 2;
+      setConstraints(setWidth);
     }
   }, [tweets]);
 
   useEffect(() => {
     if (constraints > 0) {
       controls.start({
-        x: [0, -constraints / 2],
+        x: [0, -constraints],
         transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
       });
     }
@@ -208,12 +212,12 @@ export function LatestNewsSection() {
         <motion.div 
           className="flex w-max gap-8 px-4 pb-4"
           drag="x"
-          dragConstraints={{ right: 0, left: -constraints / 2 }}
+          dragConstraints={{ right: 0, left: -constraints }}
           whileTap={{ cursor: "grabbing" }}
           animate={controls}
           onDragStart={() => controls.stop()}
           onDragEnd={() => controls.start({
-            x: [0, -constraints / 2],
+            x: [0, -constraints],
             transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
           })}
         >
