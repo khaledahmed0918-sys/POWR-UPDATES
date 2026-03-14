@@ -10,6 +10,7 @@ import { AboutSection } from './components/sections/AboutSection';
 import { FeaturesSection } from './components/sections/FeaturesSection';
 import { AchievementsSection } from './components/sections/AchievementsSection';
 import { StatsSection } from './components/sections/StatsSection';
+import { FollowerDemographicsSection } from './components/sections/FollowerDemographicsSection';
 import { TournamentsSection } from './components/sections/TournamentsSection';
 import { LatestNewsSection } from './components/sections/LatestNewsSection';
 import { LatestVideosSection } from './components/sections/LatestVideosSection';
@@ -38,6 +39,7 @@ export default function App() {
       />
       
       <AchievementsSection />
+      <FollowerDemographicsSection />
       <TournamentsSection />
       <LatestVideosSection setPopupImage={setPopupImage} />
       <LatestNewsSection />
