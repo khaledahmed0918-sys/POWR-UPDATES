@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
-import { FaXTwitter, FaHeart, FaRetweet, FaDownload, FaXmark, FaPlay } from 'react-icons/fa6';
+import { FaXTwitter, FaHeart, FaRetweet, FaPlay } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
+import { ImagePopup } from '../ui/ImagePopup';
 
 interface Tweet {
   text: string;
@@ -26,7 +27,6 @@ export function LatestNewsSection() {
   const [error, setError] = useState<string | null>(null);
   
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
 
   async function loadTweets() {
     try {
@@ -56,23 +56,6 @@ export function LatestNewsSection() {
     const interval = setInterval(() => loadTweets(), 30000);
     return () => clearInterval(interval);
   }, []);
-
-  const handleDownload = async (url: string) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = url.split('/').pop() || 'media';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      window.open(url, '_blank');
-    }
-  };
 
   const getMediaType = (url: string): 'video' | 'image' => {
     return /\.(mp4|webm|ogg)$/i.test(url) ? 'video' : 'image';
@@ -144,69 +127,48 @@ export function LatestNewsSection() {
         <SectionTitle title="أحدث التغريدات" subtitle="مقتطفات من أحدث تغريداتنا على منصة X" />
       </Container>
 
-      {/* Lightbox */}
-      {selectedMedia && (
+      {/* Image Popup */}
+      <ImagePopup 
+        isOpen={!!selectedMedia && selectedMedia.type === 'image'} 
+        onClose={() => setSelectedMedia(null)} 
+        imageUrl={selectedMedia?.type === 'image' ? selectedMedia.url : ''} 
+      />
+      
+      {/* Video Lightbox (Keep for video) */}
+      {selectedMedia && selectedMedia.type === 'video' && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
           onClick={() => setSelectedMedia(null)}
         >
-          <div className="absolute top-4 right-4 flex items-center gap-4 z-[110]">
-            <button 
-              onClick={(e) => { e.stopPropagation(); handleDownload(selectedMedia.url); }} 
-              className="text-white hover:text-[#1DA1F2] transition-colors p-3 bg-black/50 rounded-full backdrop-blur-sm border border-white/10"
-              title="تحميل"
-            >
-              <FaDownload size={20} />
-            </button>
-            <button 
-              onClick={(e) => { e.stopPropagation(); setSelectedMedia(null); }} 
-              className="text-white hover:text-red-500 transition-colors p-3 bg-black/50 rounded-full backdrop-blur-sm border border-white/10"
-              title="إغلاق"
-            >
-              <FaXmark size={24} />
-            </button>
-          </div>
           <div className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center" onClick={e => e.stopPropagation()}>
-            {selectedMedia.type === 'video' ? (
-              <video 
-                src={selectedMedia.url} 
-                controls 
-                autoPlay 
-                className="max-w-full max-h-[90vh] rounded-xl shadow-2xl" 
-              />
-            ) : (
-              <img 
-                src={selectedMedia.url} 
-                alt="Media" 
-                className="max-w-full max-h-[90vh] rounded-xl shadow-2xl object-contain" 
-              />
-            )}
+            <video 
+              src={selectedMedia.url} 
+              controls 
+              autoPlay 
+              className="max-w-full max-h-[90vh] rounded-xl shadow-2xl" 
+            />
           </div>
         </div>
       )}
       
-      {/* CSS Marquee Container */}
+      {/* Manual Scroll Container */}
       <div 
         dir="ltr" 
-        className="w-full overflow-hidden mt-8 relative"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)}
-        onTouchEnd={() => setIsPaused(false)}
+        className="w-full overflow-x-auto mt-8 relative scroll-smooth snap-x snap-mandatory"
       >
         <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#0a0000] to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
         
         <div 
-          className={`flex w-max gap-8 px-4 pb-4 animate-marquee ${isPaused ? '![animation-play-state:paused]' : ''}`}
+          className="flex w-max gap-8 px-4 pb-4"
         >
-          {[...tweets, ...tweets].map((tweet, index) => (
+          {tweets.map((tweet, index) => (
             <a 
               key={`${tweet.url || index}-${index}`}
               href={tweet.url || "https://x.com/powrupdates"}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-[300px] md:w-[400px] flex-shrink-0 group"
+              className="w-[300px] md:w-[400px] flex-shrink-0 group snap-start"
               dir="rtl"
             >
               <Card className="flex flex-col h-full text-right border-white/10 hover:border-[#1DA1F2]/50 hover:shadow-[0_10px_40px_-10px_rgba(29,161,242,0.3)] transition-all duration-300">

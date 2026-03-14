@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
-import { FaPlay, FaEye, FaHeart } from 'react-icons/fa6';
+import { FaPlay, FaEye, FaHeart, FaXmark } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
+import { ImagePopup } from '../ui/ImagePopup';
 
 interface Video {
   channelId: string;
@@ -18,11 +19,33 @@ interface Video {
   published: string;
 }
 
+// ProgressiveImage component for blur-up effect
+function ProgressiveImage({ src, alt, className }: { src: string, alt: string, className: string }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        onLoad={() => setLoaded(true)}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+      />
+      {!loaded && (
+        <div className="absolute inset-0 bg-zinc-800 animate-pulse" />
+      )}
+    </div>
+  );
+}
+
 export function LatestVideosSection() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [popupImage, setPopupImage] = useState<string | null>(null);
 
   async function loadVideos() {
     try {
@@ -108,42 +131,38 @@ export function LatestVideosSection() {
 
       <div 
         dir="ltr" 
-        className="w-full overflow-hidden mt-8 relative"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)}
-        onTouchEnd={() => setIsPaused(false)}
+        className="w-full overflow-x-auto mt-8 relative scroll-smooth snap-x snap-mandatory"
       >
         <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#0a0000] to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
         
         <div 
-          className={`flex w-max gap-8 px-4 pb-4 animate-marquee ${isPaused ? '![animation-play-state:paused]' : ''}`}
+          className="flex w-max gap-8 px-4 pb-4"
         >
-          {[...videos, ...videos].map((video, index) => (
-            <a 
+          {videos.map((video, index) => (
+            <div 
               key={`${video.videoId}-${index}`}
-              href={video.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-[320px] flex-shrink-0 group"
+              className="w-[320px] flex-shrink-0 group cursor-pointer snap-start"
               dir="rtl"
             >
               <Card className="flex flex-col h-full border-white/10 hover:border-red-600/50 hover:shadow-[0_10px_40px_-10px_rgba(220,38,38,0.3)] transition-all duration-300 p-0 overflow-hidden">
-                <div className="relative aspect-video overflow-hidden">
-                  <img 
+                <div className="relative aspect-video overflow-hidden" onClick={() => setPopupImage(video.thumbnail)}>
+                  <ProgressiveImage 
                     src={video.thumbnail} 
                     alt={video.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
+                    className="w-full h-full group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
                     <FaPlay size={48} />
                   </div>
                 </div>
                 
-                <div className="p-4 flex flex-col flex-grow">
+                <a 
+                  href={video.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 flex flex-col flex-grow"
+                >
                   <h3 className="text-white font-bold text-sm line-clamp-2 mb-2 group-hover:text-red-500 transition-colors">
                     {video.title}
                   </h3>
@@ -162,12 +181,13 @@ export function LatestVideosSection() {
                     </span>
                     <span>{formatDate(video.published)}</span>
                   </div>
-                </div>
+                </a>
               </Card>
-            </a>
+            </div>
           ))}
         </div>
       </div>
+      <ImagePopup isOpen={!!popupImage} onClose={() => setPopupImage(null)} imageUrl={popupImage || ''} />
     </TimelineSection>
   );
 }
