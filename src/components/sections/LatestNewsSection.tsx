@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'motion/react';
+import { useState, useEffect } from 'react';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
 import { FaXTwitter, FaHeart, FaRetweet, FaDownload, FaXmark, FaPlay } from 'react-icons/fa6';
 import { TimelineSection } from '../layout/TimelineSection';
-import { MARQUEE_DURATION } from '../../constants';
 
 interface Tweet {
   text: string;
@@ -28,28 +26,7 @@ export function LatestNewsSection() {
   const [error, setError] = useState<string | null>(null);
   
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [constraints, setConstraints] = useState(0);
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (containerRef.current) {
-      // If we map 4 copies, totalWidth is 4 * setWidth.
-      // We want to animate across 1 setWidth.
-      const totalWidth = containerRef.current.scrollWidth;
-      const setWidth = totalWidth / 4;
-      setConstraints(setWidth);
-    }
-  }, [tweets]);
-
-  useEffect(() => {
-    if (constraints > 0) {
-      controls.start({
-        x: [0, -constraints],
-        transition: { repeat: Infinity, ease: "linear", duration: MARQUEE_DURATION }
-      });
-    }
-  }, [controls, constraints]);
+  const [isPaused, setIsPaused] = useState(false);
 
   async function loadTweets() {
     try {
@@ -208,12 +185,22 @@ export function LatestNewsSection() {
         </div>
       )}
       
-      <div className="w-full overflow-hidden mt-8 relative" ref={containerRef}>
-        <motion.div 
-          className="flex w-max gap-8 px-4 pb-4"
-          animate={controls}
+      {/* CSS Marquee Container */}
+      <div 
+        dir="ltr" 
+        className="w-full overflow-hidden mt-8 relative"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#0a0000] to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#0a0000] to-transparent z-10 pointer-events-none" />
+        
+        <div 
+          className={`flex w-max gap-8 px-4 pb-4 animate-marquee ${isPaused ? '![animation-play-state:paused]' : ''}`}
         >
-          {[...tweets, ...tweets, ...tweets, ...tweets].map((tweet, index) => (
+          {[...tweets, ...tweets].map((tweet, index) => (
             <a 
               key={`${tweet.url || index}-${index}`}
               href={tweet.url || "https://x.com/powrupdates"}
@@ -225,16 +212,13 @@ export function LatestNewsSection() {
               <Card className="flex flex-col h-full text-right border-white/10 hover:border-[#1DA1F2]/50 hover:shadow-[0_10px_40px_-10px_rgba(29,161,242,0.3)] transition-all duration-300">
                 
                 {/* Header: Avatar & Name */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-white/5 border border-white/10 flex-shrink-0">
                       <img 
                         src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
                         alt="POWR UPDATES" 
                         className="w-full h-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png";
                         }}
@@ -285,7 +269,6 @@ export function LatestNewsSection() {
                               alt="Tweet media" 
                               className="absolute inset-0 w-full h-full object-cover group-hover/media:scale-105 transition-transform duration-500" 
                               loading="lazy" 
-                              decoding="async"
                               referrerPolicy="no-referrer" 
                             />
                           )}
@@ -314,7 +297,7 @@ export function LatestNewsSection() {
               </Card>
             </a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </TimelineSection>
   );
