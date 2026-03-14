@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import { Avatar } from '../ui/Avatar';
 import { Container } from '../layout/Container';
-import { Diamond3D } from '../3d/Diamond3D';
 
 export function HeroSection() {
   return (
@@ -40,9 +39,6 @@ export function HeroSection() {
             POWR<br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">UPDATES</span>
           </h1>
-          
-          {/* 3D Diamond Model */}
-          <Diamond3D />
 
           <motion.p 
             initial={{ opacity: 0 }}
