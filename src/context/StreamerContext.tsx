@@ -73,31 +73,41 @@ export const StreamerProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     try {
-      // Fetch strictly sequentially to protect against rate limits
+      // Fetch all data in the background first, then update UI all at once
       const queue = [...streamersList];
+      const CONCURRENCY = 8; // High concurrency for maximum speed
+      const fetchedData = new Map<string, Channel>();
       
-      while (queue.length > 0) {
-        const username = queue.shift();
-        if (username) {
-          const data = await fetchStreamerData(username);
-          
-          // Update state incrementally so UI updates faster
-          setStreamers(prev => {
-            const exists = prev.find(s => s.username === username);
-            if (exists) {
-              // If we already have valid data and the new fetch failed, KEEP the old data
-              if (!exists.error && !exists.isLoading && data.error) {
-                return prev;
-              }
-              return prev.map(s => s.username === username ? data : s);
-            }
-            return [...prev, data];
-          });
-          
-          // Wait 1 second between requests to prevent rate limiting
-          await new Promise(resolve => setTimeout(resolve, 1000));
+      const worker = async () => {
+        while (queue.length > 0) {
+          const username = queue.shift();
+          if (username) {
+            const data = await fetchStreamerData(username);
+            fetchedData.set(username, data);
+            
+            // Minimal delay to prevent browser socket exhaustion
+            await new Promise(resolve => setTimeout(resolve, 50));
+          }
         }
-      }
+      };
+
+      // Start workers and wait for ALL of them to finish
+      const workers = Array.from({ length: CONCURRENCY }, () => worker());
+      await Promise.all(workers);
+      
+      // Update state ALL AT ONCE after everything is fetched
+      setStreamers(prev => {
+        return prev.map(oldChannel => {
+          const newData = fetchedData.get(oldChannel.username);
+          if (!newData) return oldChannel;
+          
+          // If we already have valid data and the new fetch failed, KEEP the old data
+          if (!oldChannel.error && !oldChannel.isLoading && newData.error) {
+            return oldChannel;
+          }
+          return newData;
+        });
+      });
       
       setLastUpdated(Date.now());
     } catch (error) {

@@ -14,6 +14,7 @@ const PROXY_LIST = [
     (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
     (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
     (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    (url: string) => `https://api.cors.lol/?url=${encodeURIComponent(url)}`,
 ];
 
 /**
@@ -95,7 +96,7 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
   const targetUrlV2 = `https://kick.com/api/v2/channels/${originalUsername}?_=${timestamp}`;
   const targetUrlV1 = `https://kick.com/api/v1/channels/${originalUsername}?_=${timestamp}`;
 
-  const maxAttempts = 8;
+  const maxAttempts = 5;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
@@ -105,11 +106,11 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
         const urlToFetch = i === 1 ? targetUrlV1 : targetUrlV2;
         const proxyUrl = proxyFn(urlToFetch, originalUsername);
         
-        const response = await fetchWithTimeout(proxyUrl, { signal }, 5000 + (attempt * 1000));
+        const response = await fetchWithTimeout(proxyUrl, { signal }, 3500 + (attempt * 1000));
         if (response.status === 404) {
             // Throw error instead of returning __is404 so Promise.any doesn't resolve immediately
             // If it's a real 404, all proxies will throw and we handle it in catch
-            throw new Error(`Proxy ${i} returned 404`);
+            throw new Error(`404`);
         }
         if (response.ok) {
             const result = await response.json();
@@ -117,7 +118,7 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
                 return { data: result, index: i };
             }
         }
-        throw new Error(`Proxy ${i} failed`);
+        throw new Error(`Failed`);
       });
 
       const result = await Promise.any(promises);
@@ -125,7 +126,16 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
       data = result.data;
       usedProxyIndex = result.index;
       break; // Success! We got the data.
-    } catch (e) {
+    } catch (e: any) {
+      // Check if all proxies returned 404 (meaning the user actually doesn't exist)
+      if (e instanceof AggregateError || e.errors) {
+        const errors = e.errors || [];
+        const all404 = errors.length > 0 && errors.every((err: any) => err.message === '404');
+        if (all404) {
+          return getSafeChannelObj(originalUsername, false);
+        }
+      }
+      
       // All proxies failed in this attempt (could be rate limit, or real 404)
       if (attempt < maxAttempts - 1) {
         await wait(1000 + (attempt * 500)); // Exponential-ish backoff
@@ -150,7 +160,9 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
           
           // Strategy A: Check data.previous_livestreams (often included in channel payload)
           if (data.previous_livestreams && data.previous_livestreams.length > 0) {
-              lastStreamStartTime = data.previous_livestreams[0].start_time;
+              lastStreamStartTime = data.previous_livestreams[0].created_at || data.previous_livestreams[0].start_time;
+          } else if (data.recent_categories && data.recent_categories.length > 0) {
+              // Sometimes recent_categories has a timestamp
           } else {
                // Strategy B: Fetch videos endpoint
                try {
@@ -159,7 +171,7 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
                    if (vResponse.ok) {
                        const vData = await vResponse.json();
                        if (vData && vData.length > 0) {
-                           lastStreamStartTime = vData[0].created_at;
+                           lastStreamStartTime = vData[0].created_at || vData[0].start_time;
                        }
                    }
                } catch (e) { /* ignore video fetch error, it's optional data */ }
