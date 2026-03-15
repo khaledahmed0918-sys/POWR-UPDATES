@@ -150,9 +150,7 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
           
           // Strategy A: Check data.previous_livestreams (often included in channel payload)
           if (data.previous_livestreams && data.previous_livestreams.length > 0) {
-              lastStreamStartTime = data.previous_livestreams[0].created_at || data.previous_livestreams[0].start_time;
-          } else if (data.recent_categories && data.recent_categories.length > 0) {
-              // Sometimes recent_categories has a timestamp
+              lastStreamStartTime = data.previous_livestreams[0].start_time;
           } else {
                // Strategy B: Fetch videos endpoint
                try {
@@ -161,7 +159,7 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
                    if (vResponse.ok) {
                        const vData = await vResponse.json();
                        if (vData && vData.length > 0) {
-                           lastStreamStartTime = vData[0].created_at || vData[0].start_time;
+                           lastStreamStartTime = vData[0].created_at;
                        }
                    }
                } catch (e) { /* ignore video fetch error, it's optional data */ }

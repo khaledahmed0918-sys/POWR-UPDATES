@@ -3,7 +3,6 @@ import { useStreamerData } from '../../hooks/useStreamerData';
 import type { Channel } from '../../types';
 import { GlassCard } from '../ui/GlassCard';
 import { Skeleton } from '../ui/Skeleton';
-import { ProgressiveImage } from '../ui/ProgressiveImage';
 import { Search, Wifi, WifiOff, Twitter, Instagram, Youtube, Users, RefreshCw } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -225,12 +224,12 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
     <GlassCard className="p-0 overflow-hidden flex flex-col h-[420px] group hover:shadow-red-500/20 hover:-translate-y-1 transition-all duration-500 border-red-500/20 bg-gradient-to-b from-black/60 to-black/80">
       {/* Banner */}
       <div className="h-32 w-full relative overflow-hidden bg-black/50 shrink-0">
-        <ProgressiveImage 
-          src={streamer.banner_image || 'https://i.postimg.cc/x17d7rZT/IMG_9108.jpg'} 
+        <img 
+          src={getOptimizedUrl(streamer.banner_image || 'https://i.postimg.cc/x17d7rZT/IMG_9108.jpg', 800, 300)} 
           alt={`${streamer.username} banner`} 
-          width={800}
-          height={300}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90" />
         
@@ -255,12 +254,12 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         {/* Avatar */}
         <div className="absolute -top-12 right-5 z-20">
           <div className={`p-1 rounded-full ${streamer.is_live ? 'bg-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'bg-black border border-red-500/20'}`}>
-            <ProgressiveImage 
-              src={streamer.profile_pic || 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg'} 
+            <img 
+              src={getOptimizedUrl(streamer.profile_pic || 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg', 150, 150)} 
               alt={streamer.username} 
-              width={150}
-              height={150}
               className="w-24 h-24 rounded-full object-cover border-4 border-black shadow-xl bg-black"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>

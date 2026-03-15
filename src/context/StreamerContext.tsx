@@ -73,39 +73,31 @@ export const StreamerProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     try {
-      // Fetch with controlled concurrency to be faster but still protect against rate limits
+      // Fetch strictly sequentially to protect against rate limits
       const queue = [...streamersList];
-      const CONCURRENCY = 3; // Process 3 streamers at a time
       
-      const worker = async () => {
-        while (queue.length > 0) {
-          const username = queue.shift();
-          if (username) {
-            const data = await fetchStreamerData(username);
-            
-            // Update state incrementally so UI updates faster
-            setStreamers(prev => {
-              const exists = prev.find(s => s.username === username);
-              if (exists) {
-                // If we already have valid data and the new fetch failed, KEEP the old data
-                if (!exists.error && !exists.isLoading && data.error) {
-                  return prev;
-                }
-                return prev.map(s => s.username === username ? data : s);
+      while (queue.length > 0) {
+        const username = queue.shift();
+        if (username) {
+          const data = await fetchStreamerData(username);
+          
+          // Update state incrementally so UI updates faster
+          setStreamers(prev => {
+            const exists = prev.find(s => s.username === username);
+            if (exists) {
+              // If we already have valid data and the new fetch failed, KEEP the old data
+              if (!exists.error && !exists.isLoading && data.error) {
+                return prev;
               }
-              return [...prev, data];
-            });
-            
-            // Wait 500ms between requests per worker to prevent rate limiting
-            // With 3 workers, this is ~6 requests per second max
-            await new Promise(resolve => setTimeout(resolve, 500));
-          }
+              return prev.map(s => s.username === username ? data : s);
+            }
+            return [...prev, data];
+          });
+          
+          // Wait 1 second between requests to prevent rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
         }
-      };
-
-      // Start workers
-      const workers = Array.from({ length: CONCURRENCY }, () => worker());
-      await Promise.all(workers);
+      }
       
       setLastUpdated(Date.now());
     } catch (error) {
