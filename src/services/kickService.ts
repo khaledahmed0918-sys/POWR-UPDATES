@@ -15,6 +15,8 @@ const PROXY_LIST = [
     (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
     (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
     (url: string) => `https://api.cors.lol/?url=${encodeURIComponent(url)}`,
+    (url: string) => `https://proxy.cors.sh/${encodeURIComponent(url)}`,
+    (url: string) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`,
 ];
 
 /**
@@ -96,20 +98,20 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
   const targetUrlV2 = `https://kick.com/api/v2/channels/${originalUsername}?_=${timestamp}`;
   const targetUrlV1 = `https://kick.com/api/v1/channels/${originalUsername}?_=${timestamp}`;
 
-  const maxAttempts = 5;
+  const maxAttempts = 4; // Increased attempts for higher reliability
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       // Fire all proxy requests concurrently to get the fastest successful response
       const promises = PROXY_LIST.map(async (proxyFn, i) => {
-        // allorigins (index 1 now) sometimes fails with v2, use v1 for it
         const urlToFetch = i === 1 ? targetUrlV1 : targetUrlV2;
         const proxyUrl = proxyFn(urlToFetch, originalUsername);
         
-        const response = await fetchWithTimeout(proxyUrl, { signal }, 3500 + (attempt * 1000));
+        // Use a slightly longer timeout for initial attempts, then shorter
+        const timeout = attempt === 0 ? 5000 : 3000;
+        
+        const response = await fetchWithTimeout(proxyUrl, { signal }, timeout);
         if (response.status === 404) {
-            // Throw error instead of returning __is404 so Promise.any doesn't resolve immediately
-            // If it's a real 404, all proxies will throw and we handle it in catch
             throw new Error(`404`);
         }
         if (response.ok) {
@@ -127,7 +129,7 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
       usedProxyIndex = result.index;
       break; // Success! We got the data.
     } catch (e: any) {
-      // Check if all proxies returned 404 (meaning the user actually doesn't exist)
+      // Check if all proxies returned 404
       if (e instanceof AggregateError || e.errors) {
         const errors = e.errors || [];
         const all404 = errors.length > 0 && errors.every((err: any) => err.message === '404');
@@ -136,9 +138,9 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
         }
       }
       
-      // All proxies failed in this attempt (could be rate limit, or real 404)
+      // All proxies failed in this attempt
       if (attempt < maxAttempts - 1) {
-        await wait(1000 + (attempt * 500)); // Exponential-ish backoff
+        await wait(500); // Wait 500ms before retry
       }
     }
   }
@@ -155,27 +157,12 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
 
       // Try fetching previous livestreams/videos if not live to get "Last Seen" data
       if (!isLive) {
-          // Use the proxy that worked for the main request, or fallback to first
-          const proxyFn = usedProxyIndex >= 0 ? PROXY_LIST[usedProxyIndex] : PROXY_LIST[0];
-          
           // Strategy A: Check data.previous_livestreams (often included in channel payload)
           if (data.previous_livestreams && data.previous_livestreams.length > 0) {
               lastStreamStartTime = data.previous_livestreams[0].created_at || data.previous_livestreams[0].start_time;
-          } else if (data.recent_categories && data.recent_categories.length > 0) {
-              // Sometimes recent_categories has a timestamp
-          } else {
-               // Strategy B: Fetch videos endpoint
-               try {
-                   const videosUrl = `https://kick.com/api/v2/channels/${originalUsername}/videos?_=${timestamp}`;
-                   const vResponse = await fetchWithTimeout(proxyFn(videosUrl, originalUsername), { signal }, 5000);
-                   if (vResponse.ok) {
-                       const vData = await vResponse.json();
-                       if (vData && vData.length > 0) {
-                           lastStreamStartTime = vData[0].created_at || vData[0].start_time;
-                       }
-                   }
-               } catch (e) { /* ignore video fetch error, it's optional data */ }
           }
+          // We DO NOT fetch the videos endpoint here anymore. It blocks the UI.
+          // It will be fetched in the background by StreamerContext.
       }
 
       const socialLinks: { [key: string]: string } = {};
@@ -257,4 +244,29 @@ export const fetchKickChannel = async (originalUsername: string, retryCount = 0,
  */
 export const fetchChannelStatuses = async (streamers: any[]) => {
     return { checked_at: new Date().toISOString(), data: [] };
+};
+
+/**
+ * Fetches the last stream time in the background so it doesn't block the main UI
+ */
+export const fetchLastStreamTime = async (username: string, signal?: AbortSignal): Promise<string | null> => {
+    const timestamp = Date.now();
+    const videosUrl = `https://kick.com/api/v2/channels/${username}/videos?_=${timestamp}`;
+    
+    // Try proxies sequentially for background task
+    for (const proxyFn of PROXY_LIST) {
+        try {
+            const response = await fetchWithTimeout(proxyFn(videosUrl, username), { signal }, 4000);
+            if (response.ok) {
+                const vData = await response.json();
+                if (vData && vData.length > 0) {
+                    return vData[0].created_at || vData[0].start_time || null;
+                }
+                return null; // Empty array means no videos
+            }
+        } catch (e) { 
+            continue; 
+        }
+    }
+    return null;
 };

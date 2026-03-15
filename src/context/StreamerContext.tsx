@@ -1,30 +1,27 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import type { Channel } from '../types';
-import { fetchKickChannel } from '../services/kickService';
+import { fetchKickChannel, fetchLastStreamTime } from '../services/kickService';
 import { streamersList } from '../data/streamers';
 
 interface StreamerContextType {
   streamers: Channel[];
   loading: boolean;
-  refreshStreamers: (force?: boolean) => Promise<void>;
+  refreshStreamers: () => Promise<void>;
   retryStreamer: (username: string) => Promise<void>;
 }
 
 const StreamerContext = createContext<StreamerContextType | undefined>(undefined);
 
-const CACHE_DURATION = 3 * 60 * 1000; // 3 minutes
-
 export const StreamerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [streamers, setStreamers] = useState<Channel[]>([]);
   const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState<number>(0);
   
-  const hasInitialLoaded = useRef(false);
-  const isFetchingRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const failedStreamersRef = useRef<Set<string>>(new Set());
 
-  const fetchStreamerData = useCallback(async (username: string) => {
+  const fetchStreamerData = useCallback(async (username: string, signal?: AbortSignal) => {
     try {
-      return await fetchKickChannel(username);
+      return await fetchKickChannel(username, 0, signal);
     } catch (error) {
       return {
         username,
@@ -41,82 +38,113 @@ export const StreamerProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
-  const refreshStreamers = useCallback(async (force = false) => {
-    const now = Date.now();
-    if (!force && hasInitialLoaded.current && now - lastUpdated < CACHE_DURATION) {
-      return;
+  const refreshStreamers = useCallback(async () => {
+    // Cancel any ongoing fetches from previous renders/calls to free up network
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
     }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    const signal = controller.signal;
 
-    if (isFetchingRef.current) {
-      return; // Prevent overlapping fetch loops
-    }
-
-    isFetchingRef.current = true;
     setLoading(true);
     
-    // Initial load with skeletons if empty
-    if (!hasInitialLoaded.current) {
-      const initialSkeletons = streamersList.map(username => ({
-        username,
-        display_name: username,
-        is_live: false,
-        error: false,
-        isLoading: true,
-        profile_pic: '',
-        live_url: `https://kick.com/${username}`,
-        profile_url: `https://kick.com/${username}`,
-        social_links: {},
-        last_checked_at: new Date().toISOString(),
-      } as Channel));
-      setStreamers(initialSkeletons);
-      hasInitialLoaded.current = true;
-    }
+    // Always start fresh with skeletons (No Caching)
+    const initialSkeletons = streamersList.map(username => ({
+      username,
+      display_name: username,
+      is_live: false,
+      error: false,
+      isLoading: true,
+      profile_pic: '',
+      live_url: `https://kick.com/${username}`,
+      profile_url: `https://kick.com/${username}`,
+      social_links: {},
+      last_checked_at: new Date().toISOString(),
+    } as Channel));
+    setStreamers(initialSkeletons);
+    
+    // Initialize failed streamers
+    failedStreamersRef.current = new Set(streamersList);
 
-    try {
-      // Fetch all data in the background first, then update UI all at once
-      const queue = [...streamersList];
-      const CONCURRENCY = 8; // High concurrency for maximum speed
-      const fetchedData = new Map<string, Channel>();
-      
-      const worker = async () => {
-        while (queue.length > 0) {
-          const username = queue.shift();
-          if (username) {
-            const data = await fetchStreamerData(username);
-            fetchedData.set(username, data);
-            
-            // Minimal delay to prevent browser socket exhaustion
-            await new Promise(resolve => setTimeout(resolve, 50));
-          }
-        }
-      };
-
-      // Start workers and wait for ALL of them to finish
-      const workers = Array.from({ length: CONCURRENCY }, () => worker());
-      await Promise.all(workers);
-      
-      // Update state ALL AT ONCE after everything is fetched
-      setStreamers(prev => {
-        return prev.map(oldChannel => {
-          const newData = fetchedData.get(oldChannel.username);
-          if (!newData) return oldChannel;
+    while (true) {
+        if (signal.aborted) return;
+        
+        try {
+          const queue = [...failedStreamersRef.current];
+          const retryQueue: string[] = [];
+          const CONCURRENCY = 6; // Increased concurrency for faster initial load
           
-          // If we already have valid data and the new fetch failed, KEEP the old data
-          if (!oldChannel.error && !oldChannel.isLoading && newData.error) {
-            return oldChannel;
-          }
-          return newData;
-        });
-      });
-      
-      setLastUpdated(Date.now());
-    } catch (error) {
-      // Silently handle error
-    } finally {
-      setLoading(false);
-      isFetchingRef.current = false;
+          const worker = async () => {
+            while (queue.length > 0 || retryQueue.length > 0) {
+              if (signal.aborted) return;
+              
+              let username: string | undefined;
+              let isRetry = false;
+              
+              if (queue.length > 0) {
+                  username = queue.shift();
+              } else if (retryQueue.length > 0) {
+                  username = retryQueue.shift();
+                  isRetry = true;
+                  // Wait longer for retries to let proxies cool down
+                  await new Promise(resolve => setTimeout(resolve, 1000));
+              }
+
+              if (username) {
+                const data = await fetchStreamerData(username, signal);
+                
+                if (signal.aborted) return;
+                
+                if (data.error && !isRetry) {
+                    // Failed first time, push to retry queue
+                    retryQueue.push(username);
+                    continue; // Don't update UI with error yet
+                }
+                
+                // Update UI immediately for this specific streamer so user doesn't wait
+                setStreamers(prev => prev.map(s => s.username === username ? data : s));
+                
+                // Background fetch for last stream time if needed
+                if (!data.error && !data.is_live && !data.last_stream_start_time) {
+                    fetchLastStreamTime(username, signal).then(time => {
+                        if (time && !signal.aborted) {
+                            setStreamers(prev => prev.map(s => 
+                                s.username === username ? { ...s, last_stream_start_time: time } : s
+                            ));
+                        }
+                    }).catch(() => {});
+                }
+                
+                // Minimal delay between requests per worker to prevent rate limiting
+                if (!isRetry) await new Promise(resolve => setTimeout(resolve, 150));
+                
+                // If successful, remove from failed set
+                if (!data.error) {
+                    failedStreamersRef.current.delete(username);
+                }
+              }
+            }
+          };
+
+          // Start workers and wait for ALL of them to finish
+          const workers = Array.from({ length: CONCURRENCY }, () => worker());
+          await Promise.all(workers);
+          
+        } catch (error) {
+          // Silently handle error
+        }
+
+        // Check if all are done
+        if (failedStreamersRef.current.size === 0) {
+            setLoading(false);
+            break; // All done
+        }
+        
+        // Wait before full reload
+        await new Promise(resolve => setTimeout(resolve, 2000));
     }
-  }, [lastUpdated, fetchStreamerData]);
+  }, [fetchStreamerData]);
 
   const retryStreamer = useCallback(async (username: string) => {
     setStreamers(prev => prev.map(s => 
@@ -127,19 +155,22 @@ export const StreamerProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     setStreamers(prev => prev.map(s => {
       if (s.username === username) {
-        // If we had valid data previously, don't overwrite with error
-        if (!s.error && !s.isLoading && newData.error) {
-          return s;
-        }
         return newData;
       }
       return s;
     }));
   }, [fetchStreamerData]);
 
-  // Initial fetch
+  // Initial fetch on mount
   useEffect(() => {
     refreshStreamers();
+    
+    // Cleanup function to abort requests when leaving the page
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [refreshStreamers]);
 
   return (
