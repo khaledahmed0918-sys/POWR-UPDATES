@@ -14,7 +14,7 @@ export function HeroSection() {
           transition={{ duration: 1.5, ease: "easeOut" }}
           src="https://i.postimg.cc/x17d7rZT/IMG_9108.jpg" 
           alt="POWR UPDATES Banner" 
-          className="w-full h-full object-cover object-center opacity-90 will-change-transform"
+          className="w-full h-full object-cover object-center opacity-90"
           referrerPolicy="no-referrer"
           fetchPriority="high"
           loading="eager"
@@ -27,7 +27,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="flex flex-col items-center mt-40 md:mt-64 will-change-transform"
+          className="flex flex-col items-center mt-40 md:mt-64"
         >
           <Avatar 
             src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
@@ -44,7 +44,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="mt-6 text-gray-300 text-lg md:text-xl font-medium text-center max-w-2xl leading-relaxed relative z-30 will-change-transform"
+            className="mt-6 text-gray-300 text-lg md:text-xl font-medium text-center max-w-2xl leading-relaxed relative z-30"
           >
             المصدر الأول والأسرع لأخبار وتحديثات باور إيسبورتس. نضعك في قلب الحدث لحظة بلحظة.
           </motion.p>

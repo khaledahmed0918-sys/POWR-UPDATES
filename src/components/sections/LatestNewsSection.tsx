@@ -53,8 +53,7 @@ export function LatestNewsSection() {
 
   useEffect(() => {
     loadTweets();
-    const interval = setInterval(() => loadTweets(), 30000);
-    return () => clearInterval(interval);
+    // Removed setInterval to prevent background fetching and reduce device heat
   }, []);
 
   const handleDownload = async (url: string) => {

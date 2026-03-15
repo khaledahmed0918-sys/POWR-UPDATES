@@ -25,12 +25,17 @@ export function FollowerDemographicsSection() {
           
           <div className="relative z-10 flex flex-row-reverse items-end justify-center gap-4 md:gap-8 h-[450px]">
             {countries.map((c, index) => {
-              // Saudi (59.5%) should be just above 50%.
-              // Scale others proportionally.
-              const height = c.name === "السعودية" ? 55 : (c.percentage / 59.5) * 50;
+              let height = 10;
+              if (c.name === "السعودية") height = 55;
+              else if (c.name === "العراق") height = 25;
+              else if (c.name === "الأردن") height = 18;
+              else if (c.name === "الجزائر") height = 15;
+              else if (c.name === "عُمان") height = 15;
+              else if (c.name === "الكويت") height = 12;
+              else if (c.name === "الإمارات") height = 10;
               
               return (
-                <div key={index} className="flex flex-col items-center w-full max-w-[80px]">
+                <div key={index} className="flex flex-col items-center w-full max-w-[100px]">
                   {/* Flag and Pole */}
                   <div className="flex flex-col items-center mb-6">
                     <div className="animate-wave text-3xl md:text-5xl drop-shadow-lg">{c.flag}</div>
@@ -38,13 +43,13 @@ export function FollowerDemographicsSection() {
                   </div>
 
                   {/* Tower Container */}
-                  <div className="relative w-full h-[300px] flex flex-col items-end justify-end bg-white/5 rounded-t-lg border border-white/10 overflow-hidden">
+                  <div className="relative w-full h-[300px] flex flex-col items-end justify-end bg-black/40 rounded-t-xl border-x border-t border-white/10 overflow-hidden backdrop-blur-sm shadow-inner">
                     <motion.div
                       initial={{ height: 0 }}
                       whileInView={{ height: `${height}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.5, ease: "easeOut", delay: index * 0.1 }}
-                      className="w-full bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 rounded-t-sm relative shadow-[0_0_20px_rgba(37,99,235,0.4)] will-change-transform"
+                      className="w-full bg-gradient-to-t from-blue-600 via-blue-400 to-cyan-300 rounded-t-md relative shadow-[0_0_30px_rgba(56,189,248,0.5)] border-t border-cyan-200/50"
                     >
                       {/* Percentage Text */}
                       <motion.span
@@ -52,7 +57,7 @@ export function FollowerDemographicsSection() {
                         whileInView={{ opacity: 1, y: -35 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1.5, ease: "easeOut", delay: index * 0.1 }}
-                        className="absolute -top-10 w-full text-center text-white font-bold text-xs md:text-sm drop-shadow-md will-change-transform"
+                        className="absolute -top-10 w-full text-center text-white font-bold text-sm md:text-base drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                       >
                         {c.percentage}%
                       </motion.span>
@@ -60,7 +65,7 @@ export function FollowerDemographicsSection() {
                   </div>
                   
                   {/* Country Name */}
-                  <span className="text-white text-xs md:text-sm mt-6 font-bold truncate w-full text-center bg-white/5 px-2 py-1 rounded-full">
+                  <span className="text-white text-xs md:text-sm mt-4 font-bold w-full text-center bg-white/10 px-2 py-1.5 rounded-full border border-white/5 shadow-lg whitespace-nowrap">
                     {c.name}
                   </span>
                 </div>

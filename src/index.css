@@ -31,21 +31,26 @@ body {
 
 /* Marquee Animation */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes wave {
-  0%, 100% { transform: rotate(-10deg); }
-  50% { transform: rotate(10deg); }
+  0%, 100% { transform: rotate(-10deg) translateZ(0); }
+  50% { transform: rotate(10deg) translateZ(0); }
 }
 
 .animate-marquee {
   animation: marquee 35s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .animate-wave {
   animation: wave 2s ease-in-out infinite;
+  will-change: transform;
 }
 
 @layer utilities {

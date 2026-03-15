@@ -69,8 +69,7 @@ export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: st
 
   useEffect(() => {
     loadVideos();
-    const interval = setInterval(() => loadVideos(), 45000);
-    return () => clearInterval(interval);
+    // Removed setInterval to prevent background fetching and reduce device heat
   }, []);
 
   const formatNumber = (num: number) => {
