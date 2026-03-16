@@ -58,8 +58,8 @@ export const Streamers: React.FC = () => {
         return (b.viewer_count || 0) - (a.viewer_count || 0);
       }
       
-      const timeA = a.last_stream_start_time ? new Date(a.last_stream_start_time).getTime() : 0;
-      const timeB = b.last_stream_start_time ? new Date(b.last_stream_start_time).getTime() : 0;
+      const timeA = a.last_stream_start_time && !isNaN(Date.parse(a.last_stream_start_time)) ? new Date(a.last_stream_start_time).getTime() : 0;
+      const timeB = b.last_stream_start_time && !isNaN(Date.parse(b.last_stream_start_time)) ? new Date(b.last_stream_start_time).getTime() : 0;
       return timeB - timeA;
     });
 
@@ -226,7 +226,7 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
       {/* Banner */}
       <div className="h-32 w-full relative overflow-hidden bg-black/50 shrink-0">
         <ProgressiveImage 
-          src={streamer.banner_image || 'https://i.postimg.cc/x17d7rZT/IMG_9108.jpg'} 
+          src={streamer.banner || 'https://i.postimg.cc/x17d7rZT/IMG_9108.jpg'} 
           alt={`${streamer.username} banner`} 
           width={800}
           height={300}
@@ -236,7 +236,7 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         
         {/* Live Status Badge */}
         <div className="absolute top-3 left-3">
-          {streamer.is_live ? (
+          {streamer.live ? (
             <div className="flex items-center gap-2 bg-red-600/90 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.5)]">
               <Wifi size={14} />
               LIVE
@@ -254,9 +254,9 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
       <div className="p-5 flex-1 flex flex-col relative">
         {/* Avatar */}
         <div className="absolute -top-12 right-5 z-20">
-          <div className={`p-1 rounded-full ${streamer.is_live ? 'bg-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'bg-black border border-red-500/20'}`}>
+          <div className={`p-1 rounded-full ${streamer.live ? 'bg-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'bg-black border border-red-500/20'}`}>
             <ProgressiveImage 
-              src={streamer.profile_pic || 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg'} 
+              src={streamer.avatar || 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg'} 
               alt={streamer.username} 
               width={150}
               height={150}
@@ -268,8 +268,8 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         {/* Header Info */}
         <div className="mt-10 mb-4 shrink-0">
           <h3 className="text-xl font-bold text-white flex items-center gap-2 truncate">
-            {streamer.display_name}
-            {streamer.is_live && <span className="w-2 h-2 bg-red-500 rounded-full animate-ping shrink-0" />}
+            {streamer.username}
+            {streamer.live && <span className="w-2 h-2 bg-red-500 rounded-full animate-ping shrink-0" />}
           </h3>
           <p className="text-red-400/70 text-sm font-mono truncate">@{streamer.username}</p>
         </div>
@@ -279,18 +279,18 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
           <div className="bg-white/5 rounded-lg p-2 text-center border border-red-500/10">
             <div className="text-xs text-red-300/50 mb-1">المتابعون</div>
             <div className="font-mono font-bold text-red-100">
-              {new Intl.NumberFormat('en-US', { notation: "compact", compactDisplay: "short" }).format(streamer.followers_count || 0)}
+              {new Intl.NumberFormat('en-US', { notation: "compact", compactDisplay: "short" }).format(streamer.followers || 0)}
             </div>
           </div>
           <div className="bg-white/5 rounded-lg p-2 text-center border border-red-500/10 flex flex-col justify-center">
-            <div className="text-xs text-red-300/50 mb-1">{streamer.is_live ? 'المشاهدون' : 'آخر بث'}</div>
+            <div className="text-xs text-red-300/50 mb-1">{streamer.live ? 'المشاهدون' : 'آخر بث'}</div>
             <div className="font-mono font-bold text-red-100 text-xs flex items-center justify-center">
-              {streamer.is_live ? (
-                <span className="text-red-400">{streamer.viewer_count?.toLocaleString()}</span>
+              {streamer.live ? (
+                <span className="text-red-400">{streamer.viewers?.toLocaleString()}</span>
               ) : (
                 <span className="text-[10px] leading-tight opacity-70 whitespace-nowrap">
-                  {streamer.last_stream_start_time 
-                    ? formatDistanceToNow(new Date(streamer.last_stream_start_time), { addSuffix: true, locale: ar })
+                  {streamer.last_stream && !isNaN(Date.parse(streamer.last_stream))
+                    ? formatDistanceToNow(new Date(streamer.last_stream), { addSuffix: true, locale: ar })
                     : 'غير متوفر'}
                 </span>
               )}
@@ -301,34 +301,34 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         {/* Stream Info */}
         <div className="bg-red-500/5 rounded-xl p-3 mb-4 border border-red-500/10 flex-1 overflow-hidden flex flex-col">
           <div className="text-xs text-red-400 mb-1 font-bold uppercase tracking-wider shrink-0">
-            {streamer.is_live ? 'يبث الآن' : 'النبذة/البايو'}
+            {streamer.live ? 'يبث الآن' : 'النبذة/البايو'}
           </div>
-          <p className="text-sm text-red-100/90 line-clamp-2 leading-relaxed flex-1" title={streamer.live_title || ''}>
-            {streamer.live_title || streamer.bio || 'لا يوجد نبذة/بايو'}
+          <p className="text-sm text-red-100/90 line-clamp-2 leading-relaxed flex-1" title={streamer.title || ''}>
+            {streamer.title || streamer.bio || 'لا يوجد نبذة/بايو'}
           </p>
           <div className="mt-2 flex items-center gap-2 shrink-0">
             <span className="px-2 py-0.5 rounded text-[10px] bg-red-500/20 text-red-300 border border-red-500/20 truncate max-w-full">
-              {streamer.live_category || 'General'}
+              General
             </span>
           </div>
         </div>
 
         {/* Socials */}
         <div className="mt-auto pt-4 border-t border-red-500/10 flex gap-2 justify-end flex-wrap shrink-0">
-          {isValidSocialLink(streamer.social_links.twitter) && (
-            <SocialIcon href={streamer.social_links.twitter} icon={Twitter} className="text-[#1DA1F2] bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20" />
+          {isValidSocialLink(streamer.socials.twitter) && (
+            <SocialIcon href={streamer.socials.twitter} icon={Twitter} className="text-[#1DA1F2] bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20" />
           )}
-          {isValidSocialLink(streamer.social_links.instagram) && (
-            <SocialIcon href={streamer.social_links.instagram} icon={Instagram} className="text-pink-400 bg-pink-500/10 hover:bg-pink-500/20" />
+          {isValidSocialLink(streamer.socials.instagram) && (
+            <SocialIcon href={streamer.socials.instagram} icon={Instagram} className="text-pink-400 bg-pink-500/10 hover:bg-pink-500/20" />
           )}
-          {isValidSocialLink(streamer.social_links.youtube) && (
-            <SocialIcon href={streamer.social_links.youtube} icon={Youtube} className="text-red-500 bg-red-500/10 hover:bg-red-500/20" />
+          {isValidSocialLink(streamer.socials.youtube) && (
+            <SocialIcon href={streamer.socials.youtube} icon={Youtube} className="text-red-500 bg-red-500/10 hover:bg-red-500/20" />
           )}
-          {isValidSocialLink(streamer.social_links.discord) && (
-            <SocialIcon href={streamer.social_links.discord} icon={DiscordIcon} className="text-[#5865F2] bg-[#5865F2]/10 hover:bg-[#5865F2]/20" />
+          {isValidSocialLink(streamer.socials.discord) && (
+            <SocialIcon href={streamer.socials.discord} icon={DiscordIcon} className="text-[#5865F2] bg-[#5865F2]/10 hover:bg-[#5865F2]/20" />
           )}
-          {isValidSocialLink(streamer.social_links.tiktok) && (
-            <SocialIcon href={streamer.social_links.tiktok} icon={({size, className}) => (
+          {isValidSocialLink(streamer.socials.tiktok) && (
+            <SocialIcon href={streamer.socials.tiktok} icon={({size, className}) => (
                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
             )} className="text-pink-400 bg-pink-500/10 hover:bg-pink-500/20" />
           )}

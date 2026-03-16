@@ -1,21 +1,22 @@
 export interface Channel {
   username: string;
-  display_name: string;
-  profile_pic: string;
-  is_live: boolean;
-  live_title: string | null;
-  viewer_count: number | null;
-  live_since: string | null;
-  last_stream_start_time: string | null;
-  live_url: string;
-  profile_url: string;
-  error?: boolean;
-  last_checked_at: string;
+  avatar: string;
+  banner: string | null;
   bio: string | null;
-  followers_count: number | null;
-  banner_image: string | null;
-  live_category: string | null;
-  social_links: { [key: string]: string };
+  followers: number;
+  live: boolean;
+  viewers: number;
+  title: string | null;
+  last_stream: string | null;
+  socials: {
+    twitter: string | null;
+    instagram: string | null;
+    youtube: string | null;
+    discord: string | null;
+    tiktok: string | null;
+    facebook: string | null;
+  };
+  error?: boolean;
   isLoading: boolean;
 }
 

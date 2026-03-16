@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useStreamerContext } from '../../context/StreamerContext';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
@@ -40,6 +41,7 @@ function ProgressiveImage({ src, alt, className }: { src: string, alt: string, c
 }
 
 export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: string) => void }) {
+  const { liveDInitiated } = useStreamerContext();
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,9 +70,10 @@ export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: st
   }
 
   useEffect(() => {
-    loadVideos();
-    // Removed setInterval to prevent background fetching and reduce device heat
-  }, []);
+    if (liveDInitiated) {
+      loadVideos();
+    }
+  }, [liveDInitiated]);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
@@ -81,6 +84,7 @@ export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: st
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString;
       return new Intl.DateTimeFormat('ar-SA', {
         month: 'short',
         day: 'numeric',

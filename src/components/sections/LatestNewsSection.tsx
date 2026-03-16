@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useStreamerContext } from '../../context/StreamerContext';
 import { Container } from '../layout/Container';
 import { SectionTitle } from '../ui/SectionTitle';
 import { Card } from '../ui/Card';
@@ -21,6 +22,7 @@ interface MediaItem {
 }
 
 export function LatestNewsSection() {
+  const { liveDInitiated } = useStreamerContext();
   const [tweets, setTweets] = useState<Tweet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -52,9 +54,10 @@ export function LatestNewsSection() {
   }
 
   useEffect(() => {
-    loadTweets();
-    // Removed setInterval to prevent background fetching and reduce device heat
-  }, []);
+    if (liveDInitiated) {
+      loadTweets();
+    }
+  }, [liveDInitiated]);
 
   const handleDownload = async (url: string) => {
     try {
@@ -80,6 +83,7 @@ export function LatestNewsSection() {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString;
       return new Intl.DateTimeFormat('ar-SA', {
         month: 'short',
         day: 'numeric',
