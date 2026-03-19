@@ -169,15 +169,22 @@ export const Streamers: React.FC = () => {
 const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ streamer, onRetry }) => {
   const [isRetrying, setIsRetrying] = useState(false);
   const [tasks, setTasks] = useState<any[]>([]);
+  const [taskStats, setTaskStats] = useState<{ remaining: number; completed: number } | null>(null);
   const [loadingTasks, setLoadingTasks] = useState(true);
 
   React.useEffect(() => {
     if (!streamer.username) return;
-    fetch(`/root/mtcoins/data/users/${streamer.username}.json`)
+    fetch(`/api/users/${streamer.username}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.tasks) {
           setTasks(data.tasks);
+        }
+        if (data && data.data) {
+          setTaskStats({
+            remaining: data.data.tasks_remaining || 0,
+            completed: data.data.tasks_completed || 0
+          });
         }
       })
       .catch(() => {
@@ -335,21 +342,33 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         {/* Tasks Section */}
         {tasks.length > 0 && (
           <div className="bg-blue-500/5 rounded-xl p-3 mb-4 border border-blue-500/10 shrink-0">
-            <div className="text-xs text-blue-400 mb-2 font-bold uppercase tracking-wider">المهام</div>
+            <div className="text-xs text-blue-400 mb-2 font-bold uppercase tracking-wider flex justify-between">
+              <span>المهام</span>
+              {taskStats && (
+                <span className="text-gray-400">
+                  {taskStats.completed} منجزة | {taskStats.remaining} متبقية
+                </span>
+              )}
+            </div>
             <div className="space-y-2 max-h-24 overflow-y-auto pr-1 custom-scrollbar">
-              {tasks.map((task, idx) => (
-                <div key={idx} className="flex justify-between items-center text-xs bg-black/40 p-2 rounded border border-white/5">
-                  <span className="text-white truncate flex-1" title={task.task_name}>{task.task_name}</span>
-                  <div className="flex items-center gap-2 ml-2 shrink-0">
-                    <span className="text-yellow-400 flex items-center gap-1"><Coins size={10} /> {task.reward}</span>
-                    {task.completed ? (
-                      <span className="text-green-400">مكتملة</span>
-                    ) : (
-                      <span className="text-gray-400">{task.remaining} متبقي</span>
-                    )}
+              {tasks.map((task, idx) => {
+                const isStreak = task.task_name && (task.task_name.toLowerCase().includes('streak') || task.task_name.includes('ستريك'));
+                return (
+                  <div key={idx} className="flex justify-between items-center text-xs bg-black/40 p-2 rounded border border-white/5">
+                    <span className={`truncate flex-1 ${task.completed ? 'text-green-400' : 'text-white'}`} title={task.task_name}>
+                      {task.completed && isStreak ? 'تم إنجاز مهمة الستريك لليوم' : task.task_name}
+                    </span>
+                    <div className="flex items-center gap-2 ml-2 shrink-0">
+                      <span className="text-yellow-400 flex items-center gap-1"><Coins size={10} /> {task.reward}</span>
+                      {task.completed ? (
+                        <span className="text-green-400">مكتملة</span>
+                      ) : (
+                        <span className="text-gray-400">{task.remaining} متبقي</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

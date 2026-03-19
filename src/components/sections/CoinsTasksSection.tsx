@@ -49,13 +49,13 @@ export function CoinsTasksSection() {
 
   useEffect(() => {
     // Fetch recent purchases
-    fetch('/root/mtcoins/data/coins_purchases.json')
+    fetch('/api/purchases')
       .then(res => res.json())
       .then(data => setPurchases(data.purchases || []))
       .catch(() => {}); // Ignore errors to keep console clean
 
     // Fetch store items
-    fetch('/root/mtcoins/data/coinsstore.json')
+    fetch('/api/store')
       .then(res => res.json())
       .then(data => setStoreItems(data.items || []))
       .catch(() => {}); // Ignore errors to keep console clean
@@ -66,7 +66,7 @@ export function CoinsTasksSection() {
     setLoadingUser(true);
     setUserError(null);
     try {
-      const res = await fetch(`/root/mtcoins/data/users/${userId.trim()}.json`);
+      const res = await fetch(`/api/users/${userId.trim()}`);
       if (!res.ok) throw new Error('User not found');
       const data = await res.json();
       setUserData(data);
@@ -117,7 +117,7 @@ export function CoinsTasksSection() {
                 <div className="text-red-400 text-center py-4">{userError}</div>
               ) : userData ? (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
                       <Coins className="text-yellow-400 mx-auto mb-2" size={24} />
                       <div className="text-2xl font-bold text-white">{userData.data.coins}</div>
@@ -128,12 +128,17 @@ export function CoinsTasksSection() {
                       <div className="text-2xl font-bold text-white">{userData.data.tasks_completed}</div>
                       <div className="text-xs text-gray-400">المهام المنجزة</div>
                     </div>
+                    <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
+                      <Clock className="text-blue-400 mx-auto mb-2" size={24} />
+                      <div className="text-2xl font-bold text-white">{userData.data.tasks_remaining}</div>
+                      <div className="text-xs text-gray-400">المهام المتبقية</div>
+                    </div>
                   </div>
 
                   <div>
                     <h4 className="font-bold text-white mb-3 text-lg">المهام الحالية</h4>
                     <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                      {userData.tasks.map((task, idx) => (
+                      {userData.tasks.filter(t => !t.completed).map((task, idx) => (
                         <div key={idx} className="bg-white/5 p-3 rounded-lg border border-white/10">
                           <div className="flex justify-between items-start mb-2">
                             <span className="font-bold text-sm text-white">{task.task_name}</span>
@@ -143,16 +148,41 @@ export function CoinsTasksSection() {
                           </div>
                           <div className="flex justify-between text-xs text-gray-400">
                             <span>المتبقي: {task.remaining}</span>
-                            {task.completed ? (
-                              <span className="text-green-400">مكتملة</span>
-                            ) : (
-                              <span className="text-blue-400">قيد التنفيذ</span>
-                            )}
+                            <span className="text-blue-400">قيد التنفيذ</span>
                           </div>
                         </div>
                       ))}
-                      {userData.tasks.length === 0 && (
+                      {userData.tasks.filter(t => !t.completed).length === 0 && (
                         <div className="text-center text-gray-500 text-sm py-4">لا توجد مهام حالية</div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-3 text-lg mt-6">المهام المنجزة</h4>
+                    <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                      {userData.tasks.filter(t => t.completed).map((task, idx) => {
+                        const isStreak = task.task_name && (task.task_name.toLowerCase().includes('streak') || task.task_name.includes('ستريك'));
+                        return (
+                          <div key={idx} className="bg-green-500/5 p-3 rounded-lg border border-green-500/20">
+                            <div className="flex justify-between items-start mb-2">
+                              <span className="font-bold text-sm text-green-400">
+                                {isStreak ? 'تم إنجاز مهمة الستريك لليوم' : task.task_name}
+                              </span>
+                              <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-full flex items-center gap-1">
+                                <Coins size={12} /> {task.reward}
+                              </span>
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-400">
+                              <span className="text-green-400 flex items-center gap-1">
+                                <CheckCircle size={12} /> مكتملة
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {userData.tasks.filter(t => t.completed).length === 0 && (
+                        <div className="text-center text-gray-500 text-sm py-4">لا توجد مهام منجزة</div>
                       )}
                     </div>
                   </div>
