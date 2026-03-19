@@ -23,7 +23,6 @@ import { CombinedSection } from './components/sections/CombinedSection';
 import { ImagePopup } from './components/ui/ImagePopup';
 import { Streamers } from './components/sections/Streamer';
 import { StreamerProvider } from './context/StreamerContext';
-import { CoinsTasksSection } from './components/sections/CoinsTasksSection';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -77,7 +76,6 @@ function HomePage({ setPopupImage }: { setPopupImage: (url: string | null) => vo
       <AchievementsSection />
       <FollowerDemographicsSection />
       <TournamentsSection />
-      <CoinsTasksSection />
       <LatestVideosSection setPopupImage={setPopupImage} />
       <LatestNewsSection />
       <TeamSection />
