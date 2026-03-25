@@ -6,6 +6,7 @@ import { TimelineSection } from '../layout/TimelineSection';
 
 const teamMembers = [
   {
+    name: 'الرئيس',
     role: 'الرئيس',
     username: '@powr_sxb9',
     url: 'https://x.com/powr_sxb9',
@@ -14,6 +15,7 @@ const teamMembers = [
     color: 'text-yellow-500'
   },
   {
+    name: 'المؤسس',
     role: 'المؤسس',
     username: '@TU36Y',
     url: 'https://x.com/TU36Y',
@@ -22,6 +24,7 @@ const teamMembers = [
     color: 'text-red-500'
   },
   {
+    name: 'المصمم',
     role: 'فريق المصممين',
     username: '@3Z__DESING',
     url: 'https://x.com/3Z__DESING',
@@ -30,6 +33,7 @@ const teamMembers = [
     color: 'text-blue-400'
   },
   {
+    name: 'المصمم',
     role: 'فريق المصممين',
     username: '@b3sv1',
     url: 'https://x.com/b3sv1',
@@ -38,6 +42,7 @@ const teamMembers = [
     color: 'text-blue-400'
   },
   {
+    name: 'المساهم',
     role: 'المساهم',
     username: '@XMehdixxx',
     url: 'https://x.com/XMehdixxx',
@@ -46,8 +51,9 @@ const teamMembers = [
     color: 'text-green-500'
   },
   {
+    name: 'HS9N',
     role: 'محرر',
-    username: 'HS9N',
+    username: '@hs9nn',
     url: 'https://x.com/hs9nn?s=21',
     avatar: 'https://i.postimg.cc/W43p3Lxz/IMG-9341.jpg',
     icon: FaPenNib,
@@ -87,10 +93,10 @@ export function TeamSection() {
                 hidden: { opacity: 0, y: 30, scale: 0.9 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
               }}
-              className="group relative flex flex-col items-center w-40 md:w-48 bg-gradient-to-br from-white/10 to-white/5 p-6 rounded-3xl border border-white/10 hover:bg-white/15 hover:border-white/20 transition-all duration-300 shadow-2xl hover:shadow-red-500/20"
+              className="group relative flex flex-col items-center w-44 md:w-56 bg-gradient-to-b from-white/10 to-white/5 p-6 rounded-3xl border border-white/10 hover:bg-white/15 hover:border-red-500/50 transition-all duration-300 shadow-2xl hover:shadow-[0_10px_50px_-10px_rgba(220,38,38,0.3)] backdrop-blur-sm"
             >
               {/* Role Badge */}
-              <div className="absolute -top-4 bg-black/90 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10 backdrop-blur-sm">
+              <div className="absolute -top-4 bg-black/80 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10">
                 <div className={`${member.color} text-sm`}>
                   <member.icon />
                 </div>
@@ -111,11 +117,14 @@ export function TeamSection() {
 
               {/* Info */}
               <div className="flex flex-col items-center text-center w-full">
-                <span className="text-sm md:text-base font-bold text-white group-hover:text-[#1DA1F2] transition-colors duration-300 truncate w-full" dir="ltr">
+                <span className="text-lg font-bold text-white mb-1">
+                  {member.name}
+                </span>
+                <span className="text-sm text-gray-400 group-hover:text-[#1DA1F2] transition-colors duration-300 truncate w-full" dir="ltr">
                   {member.username}
                 </span>
-                <div className="mt-3 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DA1F2]/20 transition-colors duration-300 border border-white/10 group-hover:border-[#1DA1F2]/30">
-                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300 text-[14px]">
+                <div className="mt-4 w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DA1F2]/20 transition-colors duration-300 border border-white/10 group-hover:border-[#1DA1F2]/30">
+                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300 text-[16px]">
                     <FaXTwitter />
                   </div>
                 </div>
