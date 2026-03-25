@@ -24,7 +24,7 @@ const teamMembers = [
     color: 'text-red-500'
   },
   {
-    name: 'المصمم',
+    name: 'مصمم',
     role: 'فريق المصممين',
     username: '@3Z__DESING',
     url: 'https://x.com/3Z__DESING',
@@ -33,7 +33,7 @@ const teamMembers = [
     color: 'text-blue-400'
   },
   {
-    name: 'المصمم',
+    name: 'مصمم',
     role: 'فريق المصممين',
     username: '@b3sv1',
     url: 'https://x.com/b3sv1',
@@ -42,7 +42,7 @@ const teamMembers = [
     color: 'text-blue-400'
   },
   {
-    name: 'المساهم',
+    name: 'مساهم',
     role: 'المساهم',
     username: '@XMehdixxx',
     url: 'https://x.com/XMehdixxx',
@@ -51,7 +51,7 @@ const teamMembers = [
     color: 'text-green-500'
   },
   {
-    name: 'HS9N',
+    name: 'محرر',
     role: 'محرر',
     username: '@hs9nn',
     url: 'https://x.com/hs9nn?s=21',
