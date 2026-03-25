@@ -44,6 +44,14 @@ const teamMembers = [
     avatar: 'https://i.postimg.cc/bJSf6hNG/IMG_9117.jpg',
     icon: FaHandshake,
     color: 'text-green-500'
+  },
+  {
+    role: 'محرر',
+    username: 'HS9N',
+    url: 'https://x.com/hs9nn?s=21',
+    avatar: 'https://i.postimg.cc/W43p3Lxz/IMG-9341.jpg',
+    icon: FaPenNib,
+    color: 'text-purple-500'
   }
 ];
 
@@ -79,10 +87,10 @@ export function TeamSection() {
                 hidden: { opacity: 0, y: 30, scale: 0.9 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
               }}
-              className="group relative flex flex-col items-center w-40 md:w-48 bg-white/5 p-6 rounded-3xl border border-white/10 hover:bg-white/10 hover:border-red-500/30 transition-all duration-300 shadow-xl hover:shadow-[0_10px_40px_-10px_rgba(220,38,38,0.2)]"
+              className="group relative flex flex-col items-center w-40 md:w-48 bg-gradient-to-br from-white/10 to-white/5 p-6 rounded-3xl border border-white/10 hover:bg-white/15 hover:border-white/20 transition-all duration-300 shadow-2xl hover:shadow-red-500/20"
             >
               {/* Role Badge */}
-              <div className="absolute -top-4 bg-black/80 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10">
+              <div className="absolute -top-4 bg-black/90 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10 backdrop-blur-sm">
                 <div className={`${member.color} text-sm`}>
                   <member.icon />
                 </div>
