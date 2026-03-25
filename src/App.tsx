@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
@@ -23,7 +18,6 @@ import { CombinedSection } from './components/sections/CombinedSection';
 import { ImagePopup } from './components/ui/ImagePopup';
 import { Streamers } from './components/sections/Streamer';
 import { StreamerProvider } from './context/StreamerContext';
-import { CoinsTasksSection } from './components/sections/CoinsTasksSection';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,21 +57,11 @@ function HomePage({ setPopupImage }: { setPopupImage: (url: string | null) => vo
   return (
     <>
       <HeroSection />
-      
-      <CombinedSection 
-        left={<AboutSection />} 
-        right={<SocialsSection />} 
-      />
-      
-      <CombinedSection 
-        left={<FeaturesSection />} 
-        right={<StatsSection />} 
-      />
-      
+      <CombinedSection left={<AboutSection />} right={<SocialsSection />} />
+      <CombinedSection left={<FeaturesSection />} right={<StatsSection />} />
       <AchievementsSection />
       <FollowerDemographicsSection />
       <TournamentsSection />
-      <CoinsTasksSection />
       <LatestVideosSection setPopupImage={setPopupImage} />
       <LatestNewsSection />
       <TeamSection />
