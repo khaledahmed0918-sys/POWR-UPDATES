@@ -11,12 +11,14 @@ export function StatsSection() {
         subtitle="أرقام تعكس ثقتكم بنا وتفاعلكم المستمر مع محتوانا" 
       />
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-1 gap-6 md:gap-8"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
         variants={{
+          hidden: { opacity: 0 },
           visible: {
+            opacity: 1,
             transition: {
               staggerChildren: 0.1
             }
