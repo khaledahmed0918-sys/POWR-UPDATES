@@ -232,7 +232,8 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
           height={300}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90" />
+        <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90 z-10 pointer-events-none" />
         
         {/* Live Status Badge */}
         <div className="absolute top-3 left-3">

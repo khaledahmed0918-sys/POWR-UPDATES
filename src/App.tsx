@@ -19,6 +19,8 @@ import { ImagePopup } from './components/ui/ImagePopup';
 import { Streamers } from './components/sections/Streamer';
 import { StreamerProvider } from './context/StreamerContext';
 import { SnowEffect } from './components/ui/SnowEffect';
+import { Home, MonitorPlay, Snowflake, Droplets } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -31,36 +33,65 @@ function ScrollToTop() {
   return null;
 }
 
-function Navigation({ snowEnabled, setSnowEnabled }: { snowEnabled: boolean, setSnowEnabled: (v: boolean) => void }) {
+function Navigation() {
   const location = useLocation();
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="w-10"></div> {/* Spacer */}
-        <div className="flex items-center gap-8">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-center">
+        <div className="flex items-center gap-12">
           <Link 
             to="/" 
-            className={`text-lg font-bold transition-colors ${location.pathname === '/' ? 'text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.8)]' : 'text-white/70 hover:text-white'}`}
+            title="الرئيسية"
+            className={`transition-all duration-300 hover:scale-110 ${location.pathname === '/' ? 'text-sky-400 drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]' : 'text-white/60 hover:text-white'}`}
           >
-            الرئيسية
+            <Home size={28} />
           </Link>
           <Link 
             to="/streamers" 
-            className={`text-lg font-bold transition-colors ${location.pathname === '/streamers' ? 'text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.8)]' : 'text-white/70 hover:text-white'}`}
+            title="البثوث"
+            className={`transition-all duration-300 hover:scale-110 ${location.pathname === '/streamers' ? 'text-sky-400 drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]' : 'text-white/60 hover:text-white'}`}
           >
-            البثوث
+            <MonitorPlay size={28} />
           </Link>
         </div>
-        <button 
-          onClick={() => setSnowEnabled(!snowEnabled)}
-          className="text-2xl hover:scale-110 transition-transform drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]"
-          title={snowEnabled ? "إيقاف الثلج" : "تشغيل الثلج"}
-        >
-          {snowEnabled ? '❄️' : '🧊'}
-        </button>
       </div>
     </nav>
+  );
+}
+
+function FloatingSnowToggle({ snowEnabled, setSnowEnabled }: { snowEnabled: boolean, setSnowEnabled: (v: boolean) => void }) {
+  return (
+    <motion.button
+      onClick={() => setSnowEnabled(!snowEnabled)}
+      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full glass-card flex items-center justify-center shadow-[0_0_20px_rgba(14,165,233,0.3)] hover:shadow-[0_0_30px_rgba(14,165,233,0.6)] hover:scale-110 transition-all duration-300 border border-white/20"
+      whileTap={{ scale: 0.9 }}
+      title={snowEnabled ? "إيقاف الثلج" : "تشغيل الثلج"}
+    >
+      <AnimatePresence mode="wait">
+        {snowEnabled ? (
+          <motion.div
+            key="snow"
+            initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Snowflake className="text-sky-300 drop-shadow-[0_0_5px_rgba(14,165,233,0.8)]" size={28} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="drop"
+            initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Droplets className="text-sky-500/70" size={28} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.button>
   );
 }
 
@@ -110,7 +141,8 @@ export default function App() {
         <ScrollToTop />
         <SnowEffect enabled={snowEnabled} />
         <MainLayout>
-          <Navigation snowEnabled={snowEnabled} setSnowEnabled={setSnowEnabled} />
+          <Navigation />
+          <FloatingSnowToggle snowEnabled={snowEnabled} setSnowEnabled={setSnowEnabled} />
           <div className="pt-16">
             <Routes>
               <Route path="/" element={<HomePage setPopupImage={setPopupImage} />} />

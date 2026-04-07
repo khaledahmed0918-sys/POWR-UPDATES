@@ -97,12 +97,12 @@ export function TeamSection() {
               }}
               className="group relative flex flex-col items-center w-44 md:w-56 glass-card p-6 hover:bg-white/15 hover:border-sky-400/50 transition-all duration-300 shadow-2xl hover:shadow-[0_10px_50px_-10px_rgba(14,165,233,0.3)]"
             >
-              {/* Role Badge */}
-              <div className="absolute -top-4 bg-black/80 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10">
-                <div className={`${member.color} text-sm`}>
+              {/* Role Badge - Appears on hover above the card */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 glass-card px-4 py-2 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(14,165,233,0.4)] z-20 pointer-events-none border border-sky-400/30">
+                <div className={`${member.color} text-sm drop-shadow-[0_0_5px_currentColor]`}>
                   <member.icon />
                 </div>
-                <span className="text-xs font-bold text-gray-200">{member.role}</span>
+                <span className="text-xs font-bold text-white whitespace-nowrap">{member.role}</span>
               </div>
 
               {/* Avatar */}

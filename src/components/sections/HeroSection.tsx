@@ -7,14 +7,18 @@ export function HeroSection() {
     <section className="relative w-full flex flex-col items-center pb-16">
       {/* Banner Background - Full Width */}
       <div className="absolute top-0 left-0 w-full h-[300px] md:h-[450px] -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#082f49]/60 to-[var(--color-brand-dark)] z-10" />
+        <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay z-10 pointer-events-none" />
         <motion.img 
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           src="https://i.postimg.cc/15yW3XS5/IMG_9504.jpg" 
           alt="POWR UPDATES Banner" 
-          className="w-full h-full object-cover object-center opacity-90"
+          className="w-full h-full object-cover object-center opacity-80"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 70%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 70%, transparent 100%)'
+          }}
           referrerPolicy="no-referrer"
           fetchPriority="high"
           loading="eager"
