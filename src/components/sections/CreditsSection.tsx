@@ -39,10 +39,10 @@ export function CreditsSection() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
-              className="flex flex-col items-center gap-4 bg-white/5 px-8 py-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors"
+              className="flex flex-col items-center gap-4 bg-white/5 px-8 py-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors glass-card"
             >
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-red-900 shadow-[0_0_15px_rgba(153,27,27,0.5)]">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.5)]">
                   <img 
                     src={credit.avatar} 
                     alt={credit.name} 

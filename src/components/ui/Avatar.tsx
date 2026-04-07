@@ -18,7 +18,7 @@ export function Avatar({ src, alt, size = 'md', className }: AvatarProps) {
   const isLarge = size === 'xl' || size === 'lg';
   
   return (
-    <div className={cn("relative rounded-full overflow-hidden border-4 border-black/50 shadow-2xl", sizeClasses[size], className)}>
+    <div className={cn("relative rounded-full overflow-hidden border-4 border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.3)]", sizeClasses[size], className)}>
       <img
         src={src}
         alt={alt}

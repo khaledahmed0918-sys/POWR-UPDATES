@@ -32,7 +32,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
           WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)'
         }}
       >
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full drop-shadow-[0_0_8px_rgba(14,165,233,0.5)]">
           {/* Always show straight line on mobile, or if not split */}
           <g className={isSplit ? "lg:hidden" : ""}>
             <path 
@@ -45,7 +45,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
             <motion.path 
               d="M 50 0 L 50 100" 
               fill="none" 
-              stroke="#ef4444" 
+              stroke="#0ea5e9" 
               strokeWidth="2" 
               vectorEffect="non-scaling-stroke"
               style={{ pathLength: scaleY }}
@@ -66,7 +66,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
               <motion.path 
                 d="M 50 0 L 50 5 L 25 15 L 25 85 L 50 95 L 50 100" 
                 fill="none" 
-                stroke="#ef4444" 
+                stroke="#0ea5e9" 
                 strokeWidth="2" 
                 vectorEffect="non-scaling-stroke"
                 style={{ pathLength: scaleY }}
@@ -83,7 +83,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
               <motion.path 
                 d="M 50 0 L 50 5 L 75 15 L 75 85 L 50 95 L 50 100" 
                 fill="none" 
-                stroke="#ef4444" 
+                stroke="#0ea5e9" 
                 strokeWidth="2" 
                 vectorEffect="non-scaling-stroke"
                 style={{ pathLength: scaleY }}
@@ -97,7 +97,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
       {isLast && (
         <button 
           onClick={scrollToTop}
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-red-500 hover:bg-white/10 hover:text-red-400 hover:scale-110 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-all duration-300 cursor-pointer group"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center rounded-full glass-button group"
           aria-label="العودة للأعلى"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-1 transition-transform duration-300">

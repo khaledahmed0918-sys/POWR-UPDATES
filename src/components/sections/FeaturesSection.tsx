@@ -48,7 +48,7 @@ export function FeaturesSection() {
           >
             <Card className="flex flex-col items-center text-center h-full">
               <h3 className="text-2xl font-bold text-white mb-4 flex items-center justify-center gap-2">
-                <div className="text-red-500">
+                <div className="text-sky-400">
                   <feature.icon size={24} />
                 </div>
                 {feature.title}

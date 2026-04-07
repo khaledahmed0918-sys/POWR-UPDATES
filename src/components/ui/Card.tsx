@@ -12,12 +12,14 @@ export function Card({ children, className, ...props }: CardProps) {
     <div
       {...props}
       className={cn(
-        "bg-white/5 border border-white/10 backdrop-blur-xl rounded-[17px] p-6 shadow-xl transition-all duration-500",
-        "hover:bg-white/10 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(139,0,0,0.4)] hover:border-red-500/40",
+        "glass-card ice-crack p-6 transition-all duration-500",
+        "hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(2,132,199,0.5)] hover:border-blue-400/50",
         className
       )}
     >
-      {children}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }

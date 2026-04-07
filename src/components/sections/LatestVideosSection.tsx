@@ -145,14 +145,14 @@ export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: st
               className="w-[320px] flex-shrink-0 group cursor-pointer"
               dir="rtl"
             >
-              <Card className="flex flex-col h-full border-white/10 hover:border-red-600/50 hover:shadow-[0_10px_40px_-10px_rgba(220,38,38,0.3)] transition-all duration-300 p-0 overflow-hidden">
+              <Card className="flex flex-col h-full border-sky-500/20 hover:border-sky-400/50 hover:shadow-[0_10px_40px_-10px_rgba(14,165,233,0.3)] transition-all duration-300 p-0 overflow-hidden glass-card">
                 <div className="relative aspect-video overflow-hidden" onClick={() => setPopupImage(video.thumbnail)}>
                   <ProgressiveImage 
                     src={video.thumbnail} 
                     alt={video.title} 
                     className="w-full h-full group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity text-sky-400">
                     <FaPlay size={48} />
                   </div>
                 </div>
@@ -163,7 +163,7 @@ export function LatestVideosSection({ setPopupImage }: { setPopupImage: (url: st
                   rel="noopener noreferrer"
                   className="p-4 flex flex-col flex-grow"
                 >
-                  <h3 className="text-white font-bold text-sm line-clamp-2 mb-2 group-hover:text-red-500 transition-colors">
+                  <h3 className="text-white font-bold text-sm line-clamp-2 mb-2 group-hover:text-sky-400 transition-colors">
                     {video.title}
                   </h3>
                   

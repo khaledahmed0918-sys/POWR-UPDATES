@@ -4,13 +4,13 @@ import { SectionTitle } from '../ui/SectionTitle';
 import { TimelineSection } from '../layout/TimelineSection';
 
 const countries = [
-  { name: "السعودية", flag: "🇸🇦", percentage: 59.5 },
-  { name: "العراق", flag: "🇮🇶", percentage: 7.2 },
-  { name: "الأردن", flag: "🇯🇴", percentage: 4.0 },
-  { name: "الجزائر", flag: "🇩🇿", percentage: 3.5 },
-  { name: "عُمان", flag: "🇴🇲", percentage: 3.5 },
-  { name: "الكويت", flag: "🇰🇼", percentage: 3.1 },
-  { name: "الإمارات", flag: "🇦🇪", percentage: 3.0 },
+  { name: "السعودية", flag: "🇸🇦", percentage: 54.8 },
+  { name: "العراق", flag: "🇮🇶", percentage: 7.4 },
+  { name: "سلطنة عمان", flag: "🇴🇲", percentage: 4.9 },
+  { name: "الأردن", flag: "🇯🇴", percentage: 4.2 },
+  { name: "الجزائر", flag: "🇩🇿", percentage: 4.0 },
+  { name: "الإمارات", flag: "🇦🇪", percentage: 3.5 },
+  { name: "ليبيا", flag: "🇱🇾", percentage: 3.1 },
 ];
 
 export function FollowerDemographicsSection() {
@@ -28,11 +28,11 @@ export function FollowerDemographicsSection() {
               let height = 10;
               if (c.name === "السعودية") height = 55;
               else if (c.name === "العراق") height = 25;
-              else if (c.name === "الأردن") height = 18;
+              else if (c.name === "سلطنة عمان") height = 18;
+              else if (c.name === "الأردن") height = 15;
               else if (c.name === "الجزائر") height = 15;
-              else if (c.name === "عُمان") height = 15;
-              else if (c.name === "الكويت") height = 12;
-              else if (c.name === "الإمارات") height = 10;
+              else if (c.name === "الإمارات") height = 12;
+              else if (c.name === "ليبيا") height = 10;
               
               return (
                 <div key={index} className="flex flex-col items-center w-full max-w-[100px]">

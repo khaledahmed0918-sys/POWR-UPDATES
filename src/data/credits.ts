@@ -5,7 +5,7 @@ export const creditsData: CreditPerson[] = [
   {
     role: 'المؤسس',
     name: 'POWR UPDATES',
-    avatar: 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg',
+    avatar: 'https://i.postimg.cc/NfQNjFtF/IMG_9503.jpg',
     socials: [
       {
         platform: 'X',

@@ -9,12 +9,14 @@ export const GlassCard: React.FC<GlassCardProps> = ({ children, className, ...pr
   return (
     <div 
       className={cn(
-        "bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl",
+        "glass-card ice-crack",
         className
       )}
       {...props}
     >
-      {children}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 };

@@ -21,7 +21,7 @@ const teamMembers = [
     url: 'https://x.com/TU36Y',
     avatar: 'https://i.postimg.cc/43STbdZs/IMG_9114.jpg',
     icon: FaStar,
-    color: 'text-red-500'
+    color: 'text-sky-400'
   },
   {
     name: 'مصمم',
@@ -95,7 +95,7 @@ export function TeamSection() {
                 hidden: { opacity: 0, y: 30, scale: 0.9 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
               }}
-              className="group relative flex flex-col items-center w-44 md:w-56 bg-gradient-to-b from-white/10 to-white/5 p-6 rounded-3xl border border-white/10 hover:bg-white/15 hover:border-red-500/50 transition-all duration-300 shadow-2xl hover:shadow-[0_10px_50px_-10px_rgba(220,38,38,0.3)] backdrop-blur-sm"
+              className="group relative flex flex-col items-center w-44 md:w-56 glass-card p-6 hover:bg-white/15 hover:border-sky-400/50 transition-all duration-300 shadow-2xl hover:shadow-[0_10px_50px_-10px_rgba(14,165,233,0.3)]"
             >
               {/* Role Badge */}
               <div className="absolute -top-4 bg-black/80 border border-white/10 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg z-10">
@@ -106,7 +106,7 @@ export function TeamSection() {
               </div>
 
               {/* Avatar */}
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-red-500/50 transition-colors duration-300 mb-4 mt-2">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-sky-400/50 transition-colors duration-300 mb-4 mt-2">
                 <img 
                   src={member.avatar} 
                   alt={member.username} 

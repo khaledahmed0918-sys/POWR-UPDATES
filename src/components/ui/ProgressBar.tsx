@@ -7,15 +7,15 @@ interface ProgressBarProps {
   color?: string;
 }
 
-export function ProgressBar({ progress, className, color = 'bg-red-600' }: ProgressBarProps) {
+export function ProgressBar({ progress, className, color = 'bg-sky-500' }: ProgressBarProps) {
   return (
-    <div className={cn("w-full h-3 bg-black/40 rounded-full overflow-hidden", className)}>
+    <div className={cn("w-full h-3 bg-white/10 rounded-full overflow-hidden shadow-inner", className)}>
       <motion.div
         initial={{ width: 0 }}
         whileInView={{ width: `${progress}%` }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className={cn("h-full rounded-full", color)}
+        className={cn("h-full rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]", color)}
       />
     </div>
   );
