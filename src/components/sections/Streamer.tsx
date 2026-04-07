@@ -225,13 +225,21 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
     <GlassCard className="p-0 overflow-hidden flex flex-col h-[420px] group hover:shadow-sky-500/20 hover:-translate-y-1 transition-all duration-500 border-sky-500/20 bg-gradient-to-b from-black/60 to-black/80">
       {/* Banner */}
       <div className="h-32 w-full relative overflow-hidden bg-black/50 shrink-0">
-        <ProgressiveImage 
-          src={streamer.banner || 'https://i.postimg.cc/15yW3XS5/IMG_9504.jpg'} 
-          alt={`${streamer.username} banner`} 
-          width={800}
-          height={300}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+        <div 
+          className="w-full h-full"
+          style={{
+            maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)'
+          }}
+        >
+          <ProgressiveImage 
+            src={streamer.banner || 'https://i.postimg.cc/15yW3XS5/IMG_9504.jpg'} 
+            alt={`${streamer.username} banner`} 
+            width={800}
+            height={300}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        </div>
         <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay z-10 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90 z-10 pointer-events-none" />
         

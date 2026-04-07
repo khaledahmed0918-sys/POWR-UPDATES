@@ -16,8 +16,8 @@ export function HeroSection() {
           alt="POWR UPDATES Banner" 
           className="w-full h-full object-cover object-center opacity-80"
           style={{
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 70%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 70%, transparent 100%)'
+            maskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)'
           }}
           referrerPolicy="no-referrer"
           fetchPriority="high"

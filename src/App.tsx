@@ -64,7 +64,7 @@ function FloatingSnowToggle({ snowEnabled, setSnowEnabled }: { snowEnabled: bool
   return (
     <motion.button
       onClick={() => setSnowEnabled(!snowEnabled)}
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full glass-card flex items-center justify-center shadow-[0_0_20px_rgba(14,165,233,0.3)] hover:shadow-[0_0_30px_rgba(14,165,233,0.6)] hover:scale-110 transition-all duration-300 border border-white/20"
+      className="fixed bottom-8 right-8 md:bottom-10 md:right-10 z-[9999] w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/50 backdrop-blur-xl flex items-center justify-center shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:shadow-[0_0_30px_rgba(14,165,233,0.8)] hover:scale-110 transition-all duration-300 border border-sky-400/30"
       whileTap={{ scale: 0.9 }}
       title={snowEnabled ? "إيقاف الثلج" : "تشغيل الثلج"}
     >
