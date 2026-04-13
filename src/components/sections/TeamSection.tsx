@@ -33,15 +33,6 @@ const teamMembers = [
     color: 'text-blue-400'
   },
   {
-    name: 'مصمم',
-    role: 'فريق المصممين',
-    username: '@b3sv1',
-    url: 'https://x.com/b3sv1',
-    avatar: 'https://i.postimg.cc/Xvz0cJ3Y/IMG_9116.jpg',
-    icon: FaPenNib,
-    color: 'text-blue-400'
-  },
-  {
     name: 'مساهم',
     role: 'المساهم',
     username: '@XMehdixxx',
