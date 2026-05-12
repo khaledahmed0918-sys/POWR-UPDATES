@@ -42,7 +42,7 @@ export function CreditsSection() {
               className="flex flex-col items-center gap-4 bg-white/5 px-8 py-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors glass-card"
             >
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.5)]">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]">
                   <img 
                     src={credit.avatar} 
                     alt={credit.name} 

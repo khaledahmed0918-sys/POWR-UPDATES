@@ -7,12 +7,12 @@ export function HeroSection() {
     <section className="relative w-full flex flex-col items-center pb-16">
       {/* Banner Background - Full Width */}
       <div className="absolute top-0 left-0 w-full h-[300px] md:h-[450px] -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-red-900/30 mix-blend-overlay z-10 pointer-events-none" />
         <motion.img 
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          src="https://i.postimg.cc/15yW3XS5/IMG_9504.jpg" 
+          src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
           alt="POWR UPDATES Banner" 
           className="w-full h-full object-cover object-center opacity-80"
           style={{
@@ -34,14 +34,14 @@ export function HeroSection() {
           className="flex flex-col items-center mt-40 md:mt-64"
         >
           <Avatar 
-            src="https://i.postimg.cc/NfQNjFtF/IMG_9503.jpg" 
+            src="https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg" 
             alt="POWR UPDATES Avatar" 
             size="xl"
-            className="mb-6 shadow-[0_0_50px_rgba(14,165,233,0.6)] border-sky-400/50 transition-transform duration-500 hover:scale-105"
+            className="mb-6 shadow-[0_0_50px_rgba(239,68,68,0.6)] border-red-400/50 transition-transform duration-500 hover:scale-105"
           />
           <h1 className="text-5xl md:text-7xl font-black text-center tracking-wider text-white drop-shadow-2xl leading-tight relative z-30">
             POWR<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-sky-600">UPDATES</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-300 to-red-600">UPDATES</span>
           </h1>
 
           <motion.p 

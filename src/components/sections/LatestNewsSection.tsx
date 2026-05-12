@@ -133,7 +133,7 @@ export function LatestNewsSection() {
       <TimelineSection className="bg-black/20 border-y border-white/5">
         <Container>
           <SectionTitle title="أحدث التغريدات" subtitle="مقتطفات من أحدث تغريداتنا على منصة X" />
-          <div className="text-center text-sky-400 py-8 bg-sky-900/10 rounded-2xl border border-sky-900/20">
+          <div className="text-center text-red-400 py-8 bg-red-900/10 rounded-2xl border border-red-900/20">
             {error}
           </div>
         </Container>
@@ -163,7 +163,7 @@ export function LatestNewsSection() {
             </button>
             <button 
               onClick={(e) => { e.stopPropagation(); setSelectedMedia(null); }} 
-              className="text-white hover:text-sky-400 transition-colors p-3 bg-black/50 rounded-full backdrop-blur-sm border border-white/10"
+              className="text-white hover:text-red-400 transition-colors p-3 bg-black/50 rounded-full backdrop-blur-sm border border-white/10"
               title="إغلاق"
             >
               <FaXmark size={24} />
@@ -212,7 +212,7 @@ export function LatestNewsSection() {
               className="w-[300px] md:w-[400px] flex-shrink-0 group"
               dir="rtl"
             >
-              <Card className="flex flex-col h-full text-right border-sky-500/20 hover:border-[#1DA1F2]/50 hover:shadow-[0_10px_40px_-10px_rgba(29,161,242,0.3)] transition-all duration-300 glass-card">
+              <Card className="flex flex-col h-full text-right border-red-500/20 hover:border-[#1DA1F2]/50 hover:shadow-[0_10px_40px_-10px_rgba(29,161,242,0.3)] transition-all duration-300 glass-card">
                 
                 {/* Header: Avatar & Name */}
                 <div className="flex justify-between items-start mb-4">
@@ -295,7 +295,7 @@ export function LatestNewsSection() {
                       </span>
                     ) : null}
                   </div>
-                  <span className="text-sky-400 group-hover:text-[#1DA1F2] transition-colors duration-300">عرض على X &larr;</span>
+                  <span className="text-red-400 group-hover:text-[#1DA1F2] transition-colors duration-300">عرض على X &larr;</span>
                 </div>
               </Card>
             </a>

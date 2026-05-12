@@ -12,8 +12,8 @@ export function Card({ children, className, ...props }: CardProps) {
     <div
       {...props}
       className={cn(
-        "glass-card ice-crack p-6 transition-all duration-500",
-        "hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(2,132,199,0.5)] hover:border-blue-400/50",
+        "glass-card p-6 transition-all duration-500",
+        "hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(185,28,28,0.5)] hover:border-red-400/50",
         className
       )}
     >

@@ -49,7 +49,7 @@ export function SectionTitle({ title, subtitle, className }: SectionTitleProps) 
           hidden: { width: 0 },
           visible: { width: "80px", transition: { duration: 0.5 } }
         }}
-        className="h-1.5 bg-gradient-to-r from-sky-600 to-sky-300 mx-auto mt-6 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.5)]"
+        className="h-1.5 bg-gradient-to-r from-red-600 to-red-300 mx-auto mt-6 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"
       />
     </motion.div>
   );

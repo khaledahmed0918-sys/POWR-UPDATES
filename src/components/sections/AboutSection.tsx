@@ -16,7 +16,7 @@ export function AboutSection() {
       <SectionTitle title="من نحن" />
       
       <p className="text-lg md:text-xl leading-relaxed md:leading-loose text-gray-300 font-medium glass-card p-6 rounded-2xl shadow-xl">
-        أهلاً وسهلاً بالجميع! حساب <span className="text-white font-bold">POWR UPDATES</span> الاخباري ينقل كل مايخص باور ، ويعتبر أعلى حساب اخباري مخصص لـنقل اخبار الفريق .. ويمتلك أكثر من <span className="text-sky-400 font-bold">40 ألـف متابع</span> عبر حساباته في مواقع التواصل الاجتماعي
+        أهلاً وسهلاً بالجميع! حساب <span className="text-white font-bold">POWR UPDATES</span> الاخباري ينقل كل مايخص باور ، ويعتبر أعلى حساب اخباري مخصص لـنقل اخبار الفريق .. ويمتلك أكثر من <span className="text-red-400 font-bold">40 ألـف متابع</span> عبر حساباته في مواقع التواصل الاجتماعي
       </p>
     </motion.div>
   );

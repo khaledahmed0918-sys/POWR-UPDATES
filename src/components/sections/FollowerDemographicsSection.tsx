@@ -49,7 +49,7 @@ export function FollowerDemographicsSection() {
                       whileInView={{ height: `${height}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.5, ease: "easeOut", delay: index * 0.1 }}
-                      className="w-full bg-gradient-to-t from-blue-600 via-blue-400 to-cyan-300 rounded-t-md relative shadow-[0_0_30px_rgba(56,189,248,0.5)] border-t border-cyan-200/50"
+                      className="w-full bg-gradient-to-t from-red-600 via-red-400 to-red-300 rounded-t-md relative shadow-[0_0_30px_rgba(248,113,113,0.5)] border-t border-red-200/50"
                     >
                       {/* Percentage Text */}
                       <motion.span

@@ -39,7 +39,7 @@ export const StatItem: React.FC<StatItemProps> = ({ stat }) => {
           <div className="w-full mt-3">
             <ProgressBar 
               progress={progressValue} 
-              color="bg-sky-500" 
+              color="bg-red-500" 
             />
           </div>
         )}

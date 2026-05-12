@@ -37,7 +37,7 @@ export function SocialsSection() {
               className={`w-16 h-16 rounded-full glass-card border flex items-center justify-center shadow-xl transition-all duration-300 ${
                 isX 
                   ? 'border-white/30 hover:bg-white/10 hover:border-white/60 hover:shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
-                  : 'border-white/10 hover:bg-white/5 hover:border-sky-400/30'
+                  : 'border-white/10 hover:bg-white/5 hover:border-red-400/30'
               }`}
             >
               <Icon 

@@ -32,7 +32,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
           WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)'
         }}
       >
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full drop-shadow-[0_0_8px_rgba(14,165,233,0.5)]">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]">
           {/* Always show straight line on mobile, or if not split */}
           <g className={isSplit ? "lg:hidden" : ""}>
             <path 

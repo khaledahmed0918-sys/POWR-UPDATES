@@ -87,9 +87,9 @@ export const Streamers: React.FC = () => {
       />
       
       <div className="relative z-10 space-y-8 max-w-7xl mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8 border-b border-sky-500/20 pb-6">
-          <h2 className="text-3xl font-bold text-sky-100 flex items-center gap-3">
-            <Users className="text-sky-400" />
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8 border-b border-red-500/20 pb-6">
+          <h2 className="text-3xl font-bold text-red-100 flex items-center gap-3">
+            <Users className="text-red-400" />
             حسابات أعضاء POWR
           </h2>
           
@@ -99,20 +99,20 @@ export const Streamers: React.FC = () => {
                 type="button"
                 onClick={handleReloadAllFailed}
                 disabled={isReloadingAll}
-                className="bg-sky-600/20 hover:bg-sky-600/40 text-sky-400 border border-sky-500/30 px-4 py-3 rounded-xl flex items-center gap-2 transition-all font-bold whitespace-nowrap disabled:opacity-50"
+                className="bg-red-600/20 hover:bg-red-600/40 text-red-400 border border-red-500/30 px-4 py-3 rounded-xl flex items-center gap-2 transition-all font-bold whitespace-nowrap disabled:opacity-50"
               >
                 <RefreshCw size={18} className={isReloadingAll ? 'animate-spin' : ''} />
                 إعادة تحميل ({failedCount})
               </button>
             )}
             <div className="relative w-full md:w-96">
-              <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-sky-400/50" size={20} />
+              <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-red-400/50" size={20} />
               <input
                 type="text"
                 placeholder="ابحث عن عضو..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/40 border border-sky-500/20 rounded-xl py-3 pr-12 pl-4 text-white placeholder-sky-400/30 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/50 transition-all"
+                className="w-full bg-black/40 border border-red-500/20 rounded-xl py-3 pr-12 pl-4 text-white placeholder-red-400/30 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all"
               />
             </div>
           </div>
@@ -155,7 +155,7 @@ export const Streamers: React.FC = () => {
             ))}
             
             {filteredStreamers.length === 0 && (
-              <div className="col-span-full text-center py-20 text-sky-200/50">
+              <div className="col-span-full text-center py-20 text-red-200/50">
                 لا توجد نتائج مطابقة للبحث
               </div>
             )}
@@ -200,18 +200,18 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
 
   if (streamer.error) {
     return (
-      <GlassCard className="p-0 overflow-hidden flex flex-col h-[420px] items-center justify-center group hover:shadow-sky-500/10 transition-all duration-500 border-sky-500/20 bg-sky-500/5">
+      <GlassCard className="p-0 overflow-hidden flex flex-col h-[420px] items-center justify-center group hover:shadow-red-500/10 transition-all duration-500 border-red-500/20 bg-red-500/5">
         <div className="text-center p-6 flex flex-col items-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-sky-500/10 flex items-center justify-center border border-sky-500/20 mb-2">
-            <WifiOff className="text-sky-400" size={32} />
+          <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20 mb-2">
+            <WifiOff className="text-red-400" size={32} />
           </div>
           <h3 className="text-xl font-bold text-white">@{streamer.username}</h3>
-          <p className="text-sky-400/70 text-sm mb-4">فشل في جلب البيانات</p>
+          <p className="text-red-400/70 text-sm mb-4">فشل في جلب البيانات</p>
           <button 
             type="button"
             onClick={handleRetry}
             disabled={isRetrying}
-            className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2.5 rounded-full flex items-center gap-2 transition-all shadow-lg hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-bold"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-full flex items-center gap-2 transition-all shadow-lg hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-bold"
           >
             <RefreshCw size={18} className={isRetrying ? 'animate-spin' : ''} />
             {isRetrying ? 'جاري التحميل...' : 'إعادة تحميل'}
@@ -222,7 +222,7 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
   }
 
   return (
-    <GlassCard className="p-0 overflow-hidden flex flex-col h-[420px] group hover:shadow-sky-500/20 hover:-translate-y-1 transition-all duration-500 border-sky-500/20 bg-gradient-to-b from-black/60 to-black/80">
+    <GlassCard className="p-0 overflow-hidden flex flex-col h-[420px] group hover:shadow-red-500/20 hover:-translate-y-1 transition-all duration-500 border-red-500/20 bg-gradient-to-b from-black/60 to-black/80">
       {/* Banner */}
       <div className="h-32 w-full relative overflow-hidden bg-black/50 shrink-0">
         <div 
@@ -233,20 +233,20 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
           }}
         >
           <ProgressiveImage 
-            src={streamer.banner || 'https://i.postimg.cc/15yW3XS5/IMG_9504.jpg'} 
+            src={streamer.banner || 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg'} 
             alt={`${streamer.username} banner`} 
             width={800}
             height={300}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>
-        <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-red-900/30 mix-blend-overlay z-10 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90 z-10 pointer-events-none" />
         
         {/* Live Status Badge */}
         <div className="absolute top-3 left-3">
           {streamer.live ? (
-            <div className="flex items-center gap-2 bg-sky-600/90 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse shadow-[0_0_15px_rgba(14,165,233,0.5)]">
+            <div className="flex items-center gap-2 bg-red-600/90 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.5)]">
               <Wifi size={14} />
               LIVE
             </div>
@@ -263,9 +263,9 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
       <div className="p-5 flex-1 flex flex-col relative">
         {/* Avatar */}
         <div className="absolute -top-12 right-5 z-20">
-          <div className={`p-1 rounded-full ${streamer.live ? 'bg-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.5)]' : 'bg-black border border-sky-500/20'}`}>
+          <div className={`p-1 rounded-full ${streamer.live ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'bg-black border border-red-500/20'}`}>
             <ProgressiveImage 
-              src={streamer.avatar || 'https://i.postimg.cc/NfQNjFtF/IMG_9503.jpg'} 
+              src={streamer.avatar || 'https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg'} 
               alt={streamer.username} 
               width={150}
               height={150}
@@ -278,24 +278,24 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         <div className="mt-10 mb-4 shrink-0">
           <h3 className="text-xl font-bold text-white flex items-center gap-2 truncate">
             {streamer.username}
-            {streamer.live && <span className="w-2 h-2 bg-sky-500 rounded-full animate-ping shrink-0" />}
+            {streamer.live && <span className="w-2 h-2 bg-red-500 rounded-full animate-ping shrink-0" />}
           </h3>
-          <p className="text-sky-400/70 text-sm font-mono truncate">@{streamer.username}</p>
+          <p className="text-red-400/70 text-sm font-mono truncate">@{streamer.username}</p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 mb-4 shrink-0">
-          <div className="bg-white/5 rounded-lg p-2 text-center border border-sky-500/10">
-            <div className="text-xs text-sky-300/50 mb-1">المتابعون</div>
-            <div className="font-mono font-bold text-sky-100">
+          <div className="bg-white/5 rounded-lg p-2 text-center border border-red-500/10">
+            <div className="text-xs text-red-300/50 mb-1">المتابعون</div>
+            <div className="font-mono font-bold text-red-100">
               {new Intl.NumberFormat('en-US', { notation: "compact", compactDisplay: "short" }).format(streamer.followers || 0)}
             </div>
           </div>
-          <div className="bg-white/5 rounded-lg p-2 text-center border border-sky-500/10 flex flex-col justify-center">
-            <div className="text-xs text-sky-300/50 mb-1">{streamer.live ? 'المشاهدون' : 'آخر بث'}</div>
-            <div className="font-mono font-bold text-sky-100 text-xs flex items-center justify-center">
+          <div className="bg-white/5 rounded-lg p-2 text-center border border-red-500/10 flex flex-col justify-center">
+            <div className="text-xs text-red-300/50 mb-1">{streamer.live ? 'المشاهدون' : 'آخر بث'}</div>
+            <div className="font-mono font-bold text-red-100 text-xs flex items-center justify-center">
               {streamer.live ? (
-                <span className="text-sky-400">{streamer.viewers?.toLocaleString()}</span>
+                <span className="text-red-400">{streamer.viewers?.toLocaleString()}</span>
               ) : (
                 <span className="text-[10px] leading-tight opacity-70 whitespace-nowrap">
                   {streamer.last_stream && !isNaN(Date.parse(streamer.last_stream))
@@ -308,22 +308,22 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         </div>
 
         {/* Stream Info */}
-        <div className="bg-sky-500/5 rounded-xl p-3 mb-4 border border-sky-500/10 flex-1 overflow-hidden flex flex-col">
-          <div className="text-xs text-sky-400 mb-1 font-bold uppercase tracking-wider shrink-0">
+        <div className="bg-red-500/5 rounded-xl p-3 mb-4 border border-red-500/10 flex-1 overflow-hidden flex flex-col">
+          <div className="text-xs text-red-400 mb-1 font-bold uppercase tracking-wider shrink-0">
             {streamer.live ? 'يبث الآن' : 'النبذة/البايو'}
           </div>
-          <p className="text-sm text-sky-100/90 line-clamp-2 leading-relaxed flex-1" title={streamer.title || ''}>
+          <p className="text-sm text-red-100/90 line-clamp-2 leading-relaxed flex-1" title={streamer.title || ''}>
             {streamer.title || streamer.bio || 'لا يوجد نبذة/بايو'}
           </p>
           <div className="mt-2 flex items-center gap-2 shrink-0">
-            <span className="px-2 py-0.5 rounded text-[10px] bg-sky-500/20 text-sky-300 border border-sky-500/20 truncate max-w-full">
+            <span className="px-2 py-0.5 rounded text-[10px] bg-red-500/20 text-red-300 border border-red-500/20 truncate max-w-full">
               General
             </span>
           </div>
         </div>
 
         {/* Socials */}
-        <div className="mt-auto pt-4 border-t border-sky-500/10 flex gap-2 justify-end flex-wrap shrink-0">
+        <div className="mt-auto pt-4 border-t border-red-500/10 flex gap-2 justify-end flex-wrap shrink-0">
           {isValidSocialLink(streamer.socials.twitter) && (
             <SocialIcon href={streamer.socials.twitter} icon={Twitter} className="text-[#1DA1F2] bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20" />
           )}

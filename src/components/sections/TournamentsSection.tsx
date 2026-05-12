@@ -22,7 +22,7 @@ export function TournamentsSection() {
         }}
       >
         <img 
-          src="https://i.postimg.cc/15yW3XS5/IMG_9504.jpg" 
+          src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
           alt="Tournaments Background" 
           className="w-full h-full object-cover object-top opacity-20"
           fetchPriority="high"
@@ -58,11 +58,11 @@ export function TournamentsSection() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
-              className="group relative flex items-center justify-between p-8 rounded-2xl glass-card hover:bg-black/40 hover:border-sky-400/50 transition-all duration-300 overflow-hidden shadow-xl"
+              className="group relative flex items-center justify-between p-8 rounded-2xl glass-card hover:bg-black/40 hover:border-red-400/50 transition-all duration-300 overflow-hidden shadow-xl"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-sky-900/0 via-sky-900/0 to-sky-900/10 group-hover:from-sky-900/20 transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-red-900/0 via-red-900/0 to-red-900/10 group-hover:from-red-900/20 transition-all duration-500" />
               
-              <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-sky-400 transition-colors duration-300 relative z-10">
+              <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-red-400 transition-colors duration-300 relative z-10">
                 {tournament.name}
               </h3>
               <span className="text-4xl relative z-10 group-hover:scale-110 transition-transform duration-300">

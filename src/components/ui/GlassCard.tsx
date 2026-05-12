@@ -9,7 +9,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({ children, className, ...pr
   return (
     <div 
       className={cn(
-        "glass-card ice-crack",
+        "glass-card",
         className
       )}
       {...props}

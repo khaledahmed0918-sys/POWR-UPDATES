@@ -32,10 +32,10 @@ export function AchievementsSection() {
                 إنجازات حساب @POWR UPDATES
               </h2>
               <div 
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.4)] flex-shrink-0"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.4)] flex-shrink-0"
               >
                 <img 
-                  src="https://i.postimg.cc/NfQNjFtF/IMG_9503.jpg" 
+                  src="https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg" 
                   alt="المؤسس" 
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -52,7 +52,7 @@ export function AchievementsSection() {
             </p>
             
             <div 
-              className="h-1.5 bg-gradient-to-r from-sky-600 to-sky-300 mx-auto mt-6 rounded-full w-[80px] shadow-[0_0_10px_rgba(14,165,233,0.5)]"
+              className="h-1.5 bg-gradient-to-r from-red-600 to-red-300 mx-auto mt-6 rounded-full w-[80px] shadow-[0_0_10px_rgba(239,68,68,0.5)]"
             />
           </div>
         </div>
@@ -64,16 +64,16 @@ export function AchievementsSection() {
             <div
               key={index}
             >
-              <Card className="flex items-center gap-6 p-6 border-white/10 hover:border-sky-400/50 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] transition-all duration-300">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sky-900/40 to-sky-600/20 flex items-center justify-center flex-shrink-0 border border-sky-500/20">
-                  <div className="text-sky-400 drop-shadow-[0_0_10px_rgba(14,165,233,0.8)]">
+              <Card className="flex items-center gap-6 p-6 border-white/10 hover:border-red-400/50 hover:shadow-[0_0_30px_rgba(239,68,68,0.15)] transition-all duration-300">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-900/40 to-red-600/20 flex items-center justify-center flex-shrink-0 border border-red-500/20">
+                  <div className="text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]">
                     <achievement.icon size={28} />
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-bold text-white mb-1">{achievement.title}</h3>
                   <div className="flex items-center gap-2 text-gray-400 text-sm">
-                    <div className="text-sky-400/70">
+                    <div className="text-red-400/70">
                       <FaCalendarCheck />
                     </div>
                     <span>{achievement.date}</span>

@@ -21,7 +21,7 @@ const teamMembers = [
     url: 'https://x.com/TU36Y',
     avatar: 'https://i.postimg.cc/43STbdZs/IMG_9114.jpg',
     icon: FaStar,
-    color: 'text-sky-400'
+    color: 'text-red-400'
   },
   {
     name: 'مصمم',
@@ -30,7 +30,7 @@ const teamMembers = [
     url: 'https://x.com/3Z__DESING',
     avatar: 'https://i.postimg.cc/0NBqdQxx/IMG_9115.jpg',
     icon: FaPenNib,
-    color: 'text-blue-400'
+    color: 'text-red-400'
   },
   {
     name: 'مساهم',
@@ -86,10 +86,10 @@ export function TeamSection() {
                 hidden: { opacity: 0, y: 30, scale: 0.9 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
               }}
-              className="group relative flex flex-col items-center w-44 md:w-56 glass-card p-6 hover:bg-white/15 hover:border-sky-400/50 transition-all duration-300 shadow-2xl hover:shadow-[0_10px_50px_-10px_rgba(14,165,233,0.3)]"
+              className="group relative flex flex-col items-center w-44 md:w-56 glass-card p-6 hover:bg-white/15 hover:border-red-400/50 transition-all duration-300 shadow-2xl hover:shadow-[0_10px_50px_-10px_rgba(239,68,68,0.3)]"
             >
               {/* Role Badge - Appears on hover above the card */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 glass-card px-4 py-2 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(14,165,233,0.4)] z-20 pointer-events-none border border-sky-400/30">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 glass-card px-4 py-2 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(239,68,68,0.4)] z-20 pointer-events-none border border-red-400/30">
                 <div className={`${member.color} text-sm drop-shadow-[0_0_5px_currentColor]`}>
                   <member.icon />
                 </div>
@@ -97,7 +97,7 @@ export function TeamSection() {
               </div>
 
               {/* Avatar */}
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-sky-400/50 transition-colors duration-300 mb-4 mt-2">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-red-400/50 transition-colors duration-300 mb-4 mt-2">
                 <img 
                   src={member.avatar} 
                   alt={member.username} 

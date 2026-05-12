@@ -52,7 +52,7 @@ export function ImagePopup({ isOpen, onClose, imageUrl }: ImagePopupProps) {
         <div className="p-4 flex justify-end">
           <button 
             onClick={handleDownload}
-            className="flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
           >
             <FaDownload /> تحميل
           </button>
