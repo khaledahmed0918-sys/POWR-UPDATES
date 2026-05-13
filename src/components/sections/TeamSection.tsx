@@ -113,11 +113,11 @@ export function TeamSection() {
                 <span className="text-lg font-bold text-white mb-1">
                   {member.name}
                 </span>
-                <span className="text-sm text-gray-400 group-hover:text-[#1DA1F2] transition-colors duration-300 truncate w-full" dir="ltr">
+                <span className="text-sm text-gray-400 group-hover:text-[#ef4444] transition-colors duration-300 truncate w-full" dir="ltr">
                   {member.username}
                 </span>
-                <div className="mt-4 w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DA1F2]/20 transition-colors duration-300 border border-white/10 group-hover:border-[#1DA1F2]/30">
-                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300 text-[16px]">
+                <div className="mt-4 w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#ef4444]/20 transition-colors duration-300 border border-white/10 group-hover:border-[#ef4444]/30">
+                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#ef4444] group-hover:drop-shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-all duration-300 text-[16px]">
                     <FaXTwitter />
                   </div>
                 </div>

@@ -29,7 +29,7 @@ export function TournamentsSection() {
           loading="eager"
         />
         {/* Overall subtle darkening to ensure text readability */}
-        <div className="absolute inset-0 bg-[#082f49]/60" />
+        <div className="absolute inset-0 bg-[#450a0a]/60" />
       </div>
       
       <Container className="relative z-10 py-24">

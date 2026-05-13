@@ -325,7 +325,7 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         {/* Socials */}
         <div className="mt-auto pt-4 border-t border-red-500/10 flex gap-2 justify-end flex-wrap shrink-0">
           {isValidSocialLink(streamer.socials.twitter) && (
-            <SocialIcon href={streamer.socials.twitter} icon={Twitter} className="text-[#1DA1F2] bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20" />
+            <SocialIcon href={streamer.socials.twitter} icon={Twitter} className="text-[#ef4444] bg-[#ef4444]/10 hover:bg-[#ef4444]/20" />
           )}
           {isValidSocialLink(streamer.socials.instagram) && (
             <SocialIcon href={streamer.socials.instagram} icon={Instagram} className="text-pink-400 bg-pink-500/10 hover:bg-pink-500/20" />

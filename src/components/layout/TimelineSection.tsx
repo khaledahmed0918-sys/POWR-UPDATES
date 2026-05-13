@@ -45,7 +45,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
             <motion.path 
               d="M 50 0 L 50 100" 
               fill="none" 
-              stroke="#0ea5e9" 
+              stroke="#ef4444" 
               strokeWidth="2" 
               vectorEffect="non-scaling-stroke"
               style={{ pathLength: scaleY }}
@@ -66,7 +66,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
               <motion.path 
                 d="M 50 0 L 50 5 L 25 15 L 25 85 L 50 95 L 50 100" 
                 fill="none" 
-                stroke="#0ea5e9" 
+                stroke="#ef4444" 
                 strokeWidth="2" 
                 vectorEffect="non-scaling-stroke"
                 style={{ pathLength: scaleY }}
@@ -83,7 +83,7 @@ export function TimelineSection({ children, isSplit = false, className, isLast =
               <motion.path 
                 d="M 50 0 L 50 5 L 75 15 L 75 85 L 50 95 L 50 100" 
                 fill="none" 
-                stroke="#0ea5e9" 
+                stroke="#ef4444" 
                 strokeWidth="2" 
                 vectorEffect="non-scaling-stroke"
                 style={{ pathLength: scaleY }}

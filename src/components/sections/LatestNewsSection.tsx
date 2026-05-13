@@ -156,7 +156,7 @@ export function LatestNewsSection() {
           <div className="absolute top-4 right-4 flex items-center gap-4 z-[110]">
             <button 
               onClick={(e) => { e.stopPropagation(); handleDownload(selectedMedia.url); }} 
-              className="text-white hover:text-[#1DA1F2] transition-colors p-3 bg-black/50 rounded-full backdrop-blur-sm border border-white/10"
+              className="text-white hover:text-[#ef4444] transition-colors p-3 bg-black/50 rounded-full backdrop-blur-sm border border-white/10"
               title="تحميل"
             >
               <FaDownload size={20} />
@@ -212,7 +212,7 @@ export function LatestNewsSection() {
               className="w-[300px] md:w-[400px] flex-shrink-0 group"
               dir="rtl"
             >
-              <Card className="flex flex-col h-full text-right border-red-500/20 hover:border-[#1DA1F2]/50 hover:shadow-[0_10px_40px_-10px_rgba(29,161,242,0.3)] transition-all duration-300 glass-card">
+              <Card className="flex flex-col h-full text-right border-red-500/20 hover:border-[#ef4444]/50 hover:shadow-[0_10px_40px_-10px_rgba(239,68,68,0.3)] transition-all duration-300 glass-card">
                 
                 {/* Header: Avatar & Name */}
                 <div className="flex justify-between items-start mb-4">
@@ -232,7 +232,7 @@ export function LatestNewsSection() {
                       <span className="text-xs text-gray-500" dir="rtl">{formatDate(tweet.date)}</span>
                     </div>
                   </div>
-                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#1DA1F2] group-hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.6)] transition-all duration-300">
+                  <div className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] group-hover:text-[#ef4444] group-hover:drop-shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-all duration-300">
                     <FaXTwitter size={20} />
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export function LatestNewsSection() {
                       </span>
                     ) : null}
                   </div>
-                  <span className="text-red-400 group-hover:text-[#1DA1F2] transition-colors duration-300">عرض على X &larr;</span>
+                  <span className="text-red-400 group-hover:text-[#ef4444] transition-colors duration-300">عرض على X &larr;</span>
                 </div>
               </Card>
             </a>
