@@ -12,7 +12,7 @@ export function HeroSection() {
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
+          src="https://i.postimg.cc/bw3hgTR5/IMG-0341.jpg" 
           alt="POWR UPDATES Banner" 
           className="w-full h-full object-cover object-center opacity-80"
           style={{
@@ -34,7 +34,7 @@ export function HeroSection() {
           className="flex flex-col items-center mt-40 md:mt-64"
         >
           <Avatar 
-            src="https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg" 
+            src="https://i.postimg.cc/zG0r7jkt/IMG-0303.jpg" 
             alt="POWR UPDATES Avatar" 
             size="xl"
             className="mb-6 shadow-[0_0_50px_rgba(239,68,68,0.6)] border-red-400/50 transition-transform duration-500 hover:scale-105"

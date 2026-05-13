@@ -219,7 +219,7 @@ export function LatestNewsSection() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden bg-white/5 border border-white/10 flex-shrink-0">
                       <img 
-                        src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
+                        src="https://i.postimg.cc/bw3hgTR5/IMG-0341.jpg" 
                         alt="POWR UPDATES" 
                         className="w-full h-full object-cover"
                         onError={(e) => {

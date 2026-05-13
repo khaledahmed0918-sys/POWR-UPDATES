@@ -22,7 +22,7 @@ export function TournamentsSection() {
         }}
       >
         <img 
-          src="https://i.postimg.cc/mgqrqxng/IMG-9107.jpg" 
+          src="https://i.postimg.cc/bw3hgTR5/IMG-0341.jpg" 
           alt="Tournaments Background" 
           className="w-full h-full object-cover object-top opacity-20"
           fetchPriority="high"

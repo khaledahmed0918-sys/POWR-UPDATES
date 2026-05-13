@@ -10,7 +10,7 @@ const teamMembers = [
     role: 'الرئيس',
     username: '@powr_sxb9',
     url: 'https://x.com/powr_sxb9',
-    avatar: 'https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg',
+    avatar: 'https://i.postimg.cc/zG0r7jkt/IMG-0303.jpg',
     icon: FaCrown,
     color: 'text-yellow-500'
   },

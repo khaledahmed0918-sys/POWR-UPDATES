@@ -35,7 +35,7 @@ export function AchievementsSection() {
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.4)] flex-shrink-0"
               >
                 <img 
-                  src="https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg" 
+                  src="https://i.postimg.cc/zG0r7jkt/IMG-0303.jpg" 
                   alt="المؤسس" 
                   className="w-full h-full object-cover"
                   loading="lazy"

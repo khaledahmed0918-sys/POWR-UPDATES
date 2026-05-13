@@ -233,7 +233,7 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
           }}
         >
           <ProgressiveImage 
-            src={streamer.banner || 'https://i.postimg.cc/mgqrqxng/IMG-9107.jpg'} 
+            src={streamer.banner || 'https://i.postimg.cc/bw3hgTR5/IMG-0341.jpg'} 
             alt={`${streamer.username} banner`} 
             width={800}
             height={300}
@@ -265,7 +265,7 @@ const StreamerCard: React.FC<{ streamer: Channel; onRetry: () => void }> = ({ st
         <div className="absolute -top-12 right-5 z-20">
           <div className={`p-1 rounded-full ${streamer.live ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'bg-black border border-red-500/20'}`}>
             <ProgressiveImage 
-              src={streamer.avatar || 'https://i.postimg.cc/k5pdF4C1/IMG-9113.jpg'} 
+              src={streamer.avatar || 'https://i.postimg.cc/zG0r7jkt/IMG-0303.jpg'} 
               alt={streamer.username} 
               width={150}
               height={150}
