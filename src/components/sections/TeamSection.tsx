@@ -24,11 +24,11 @@ const teamMembers = [
     color: 'text-red-400'
   },
   {
-    name: 'مصمم',
+    name: 'المصمم',
     role: 'فريق المصممين',
-    username: '@3Z__DESING',
-    url: 'https://x.com/3Z__DESING',
-    avatar: 'https://i.postimg.cc/0NBqdQxx/IMG_9115.jpg',
+    username: '@3Z_DESIGN',
+    url: 'https://x.com/3Z_DESIGN',
+    avatar: 'https://i.postimg.cc/0NfNLvSS/IMG-0689.jpg',
     icon: FaPenNib,
     color: 'text-red-400'
   },
